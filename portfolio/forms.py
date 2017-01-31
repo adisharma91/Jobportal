@@ -1,6 +1,7 @@
 from django import forms
 from portfolio.models import BiodataModel
 from django.contrib.auth.models import User
+from django.conf import settings
 
 class userform(forms.ModelForm):
     first_name =  forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','required':'false'}))
@@ -23,7 +24,7 @@ class BiodataForm(forms.ModelForm):
     ifsc_code = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     police_station = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     idnty_mark = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    dateofjoining = eventstartdate = forms.DateTimeField(input_formats=settings.DATE_INPUT_FORMATS,widget=forms.TextInput(attrs={'class': 'form-control datepicker', 'placeholder': 'Date when project start*'}))
+    dateofjoining = forms.DateTimeField(input_formats=settings.DATE_INPUT_FORMATS,widget=forms.TextInput(attrs={'class': 'form-control datepicker', 'placeholder': 'Date when project start*'}))
     document_submitted = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     experience = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     preffered_jobs = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
