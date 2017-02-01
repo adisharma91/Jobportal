@@ -653,7 +653,8 @@ a.verified i {
 }
 
 .latest-jobs-ads {
-	margin-bottom: 15px;
+    margin-top: 55px;
+	margin-bottom: 25px;
 	background-color: #fff;
 	padding: 15px 30px;
 }

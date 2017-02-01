@@ -9,7 +9,5 @@ def index(request):
 
 
 def login(request):
-    # email = request.Post.get['']
-    # password = request.Post.get['']
 
     return render(request, 'login.html')
