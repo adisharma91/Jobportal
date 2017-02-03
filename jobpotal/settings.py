@@ -131,3 +131,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
    os.path.join(BASE_DIR, "static")
 ]
+
+# Superuser credentials will be like:
+# superuser: ameotech
+# password: ameotech1234
