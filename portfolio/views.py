@@ -20,9 +20,9 @@ def signup(request):
     flag = 'none';
 
     if request.method == 'POST':
-        isemailexists = User.objects.filter(email=request.POST['email']).count();
-        if isemailexists > 0:
-            return render(request, 'signup.html', {'request': request, 'userform': userfrm,'flag':'block'});
+        # isemailexists = User.objects.filter(email=request.POST['email']).count();
+        # if isemailexists > 0:
+        #     return render(request, 'signup.html', {'request': request, 'userform': userfrm,'flag':'block'});
 
         user = User.objects.create_user(request.POST['email'],request.POST['email'],request.POST['password'])
         user.first_name = request.POST['first_name']
@@ -30,7 +30,7 @@ def signup(request):
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         user.save()
         login(request, user);
-        return HttpResponseRedirect('index');
+        return render(request, 'index.html');
     else:
         userfrm = portfolioform.Userform()
         return render(request, 'signup.html', {'request': request, 'userform': userfrm});
