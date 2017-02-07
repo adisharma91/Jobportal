@@ -298,12 +298,12 @@ textarea {
 	margin-right: 5px;
 }
 
-.sign-in li:last-child {
+.sign-in li:nth-child(3) {
 	position: relative;
 	padding-left: 10px;
 }
 
-.sign-in li:last-child:before {
+.sign-in li:nth-child(3):before {
 	position: absolute;
 	left: 0;
 	top: 50%;
@@ -1513,7 +1513,7 @@ a.verified i {
 }
 
 .user-account .btn {
-	background-color: #00a651;
+	background-color: #0072bc;
 	color: #fff;
 	padding: 5px 32px 7px;
 	margin-top: 10px;	

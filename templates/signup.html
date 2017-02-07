@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from demo.themeregion.com/jobs-updated/signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 31 Jan 2017 19:26:06 GMT -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +10,7 @@
 
     <title>Jobs | Job Portal / Job Board HTML Template</title>
 
-   <!-- CSS -->
+    <!-- CSS -->
     <link rel="stylesheet" href="/static/jobsite/css/bootstrap.min.css" >
     <link rel="stylesheet" href="/static/jobsite/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/static/jobsite/css/icofont.css">
@@ -25,7 +24,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Signika+Negative:400,300,600,700' rel='stylesheet' type='text/css'>
 
 	<!-- icons -->
-	<link rel="icon" href="images/ico/favicon.ico">
+	<link rel="icon" href="/static/jobsite/images/ico/favicon.ico">
     <link rel="apple-touch-icon" sizes="144x144" href="/static/jobsite/images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon" sizes="114x114" href="/static/jobsite/images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/static/jobsite/images/ico/apple-touch-icon-72-precomposed.html">
@@ -67,7 +66,7 @@
 							<li><a href="resume.html">Resume</a></li>
 							<li class="dropdown active"><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Pages<span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li><a href="profile.html">Profile</a></li>
+									<li><a href="profile.html">profile</a></li>
 									<li><a href="post-resume.html">Post Resume</a></li>
 									<li><a href="post.html">Job Post</a></li>
 									<li><a href="edit-resume.html">Edit Resume</a></li>
@@ -75,8 +74,8 @@
 									<li><a href="bookmark.html">Bookmark</a></li>
 									<li><a href="applied-job.html">Applied Job</a></li>
 									<li><a href="delete-account.html">Close Account</a></li>
-									<li><a href="signup.html">Job Signup</a></li>
-									<li class="active"><a href="/login/">Job Signin</a></li>
+									<li class="active"><a href="signup.html">Job Signup</a></li>
+									<li><a href="signin.html">Job Signin</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -87,8 +86,8 @@
 				<div class="nav-right">
 					<ul class="sign-in">
 						<li><i class="fa fa-user"></i></li>
-						<li><a href="/login/">Sign In</a></li>
-						<li><a href="/login/">Register</a></li>
+						<li><a href="/signin/">Sign In</a></li>
+						<li><a href="/signup/">Register</a></li>
 					</ul><!-- sign-in -->
 
 					<a href="post.html" class="btn">Post Your Job</a>
@@ -98,47 +97,59 @@
 		</nav><!-- navbar -->
 	</header><!-- header -->
 
-	<!-- signin-page -->
-	<section class="clearfix">
+	<section class="job-bg user-page">
 		<div class="container">
 			<div class="row text-center">
-            </div><form method="post" action="#" id="signupform" novalidate>
-                 {% csrf_token %}
-            <div class="row" style="margin-top:10px">
-                <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                     <div class="modal-body">
-                         <div class="form-group"><label class="control-label">First Name:</label>
-                             {{userform.first_name}}
-                         </div>
-                     </div>
-                    <div class="modal-body">
-                         <div class="form-group"><label class="control-label">Last Name:</label>
-                             {{userform.last_name}}
-                         </div>
-                     </div>
-                    <div class="modal-body">
-                         <div class="form-group"><label class="control-label">Password:</label>
-                             {{userform.password}}
-                         </div>
-                    </div>
-                    <div class="modal-body">
-                        <label class="control-label" for="ConfirmPassword">Confirm Password:</label>
-                        <input type="password" class="form-control" id="ConfirmPassword" placeholder="Confirm Password">
-                    </div>
-                    <div class="modal-body">
-                         <div class="form-group"><label class="control-label">Email:</label>
-                             {{userform.email}}
-                         </div>
-                    </div>
-                    <div class="modal-body">
-                    <button type="submit" class="btn btn-primary">Register</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-            </div><!-- row -->
+				<!-- user-login -->
+				<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+					<div class="user-account job-user-account">
+						<h2>Create An Account</h2>
+					 	<div class="col-lg-12 col-md-12">
+						{% if messages %}
+							{% for message in messages %}
+								<div class="alert alert-success">
+									<button type="button" class="close" data-dismiss="alert">x</button>
+									{{ message }}
+								</div>
+							{% endfor %}
+						{% endif %}
+						</div>
+							<!--<ul class="nav nav-tabs text-center" role="tablist">-->
+								<!--<li role="presentation" class="active"><a href="#find-job" aria-controls="find-job" role="tab" data-toggle="tab">Find A Job</a></li>-->
+								<!--<li role="presentation"><a href="#post-job" aria-controls="post-job" role="tab" data-toggle="tab">Post A Job</a></li>-->
+							<!--</ul>-->
+
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane active" id="find-job">
+									<form method="post" action="">
+                                        {% csrf_token %}
+										<div class="form-group">
+                                            {{userform.first_name}}
+										</div>
+										<div class="form-group">
+											{{userform.last_name}}
+										</div>
+                                        <div class="form-group">
+											{{userform.username}}
+										</div>
+										<div class="form-group">
+											{{userform.password}}
+										</div>
+										<div class="form-group">
+											<input type="password" class="form-control" placeholder="Confirm Password">
+										</div>
+										<div class="form-group">
+											{{userform.email}}
+										</div>
+										<button type="submit" class="btn">Registration</button>
+									</form>
+								</div>
+							</div>
+					</div>
+				</div><!-- user-login -->
+			</div><!-- row -->
 		</div><!-- container -->
-	</section><!-- signin-page -->
+	</section><!-- signup-page -->
 
 	<!-- footer -->
 	<footer id="footer" class="clearfix">
@@ -207,7 +218,7 @@
 
 		<div class="footer-bottom clearfix text-center">
 			<div class="container">
-				<p>Copyright &copy; <a href="#">Jobs</a> 2017. Developed by <a href="http://themeregion.com/">ThemeRegion</a></p>
+				<p>Copyright &copy; <a href="#">Jobs</a> 2017. Developed by <a href="javascript:void(0);">Aditya Sharma and Rochan Sharma</a></p>
 			</div>
 		</div><!-- footer-bottom -->
 	</footer><!-- footer -->
@@ -221,5 +232,5 @@
 
   </body>
 
-<!-- Mirrored from demo.themeregion.com/jobs-updated/signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 31 Jan 2017 19:26:06 GMT -->
+<!-- Mirrored from demo.themeregion.com/jobs-updated/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 31 Jan 2017 19:26:06 GMT -->
 </html>

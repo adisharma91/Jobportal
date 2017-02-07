@@ -4,10 +4,11 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 class Userform(forms.ModelForm):
-    first_name =  forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','required':'false', 'placeholder':'Ex: John'}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Ex: McCarthy'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'********'}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'Johnmcharty@gmail.com'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Username'}))
+    first_name =  forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','required':'false', 'placeholder':'Firstname'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Lastname'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password'}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'Email'}))
 
     class Meta:
         model = User

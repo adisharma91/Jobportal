@@ -25,7 +25,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Signika+Negative:400,300,600,700' rel='stylesheet' type='text/css'>
 
 	<!-- icons -->
-	<link rel="icon" href="images/ico/favicon.ico">
+	<link rel="icon" href="/static/jobsite/images/ico/favicon.ico">
     <link rel="apple-touch-icon" sizes="144x144" href="/static/jobsite/images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon" sizes="114x114" href="/static/jobsite/images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/static/jobsite/images/ico/apple-touch-icon-72-precomposed.html">
@@ -87,8 +87,13 @@
 				<div class="nav-right">
 					<ul class="sign-in">
 						<li><i class="fa fa-user"></i></li>
-						<li><a href="/login/">Sign In</a></li>
-						<li><a href="/login/">Register</a></li>
+						{% if request.user.id %}
+						<li><a href="javascript:void(0);">Welcome {{request.user.first_name}}</a></li>
+						<li><a href="/signout/">Signout</a></li>
+						{% else %}
+						<li><a href="/signin/">Sign In</a></li>
+						<li><a href="/signup/">Register</a></li>
+						{% endif %}
 					</ul><!-- sign-in -->
 
 					<a href="post.html" class="btn">Post Your Job</a>
@@ -129,106 +134,6 @@
 
 	<div class="page">
 		<div class="container">
-			<!--<div class="section category-items job-category-items  text-center">-->
-				<!--<ul class="category-list">-->
-					<!--<li class="category-item">-->
-						<!--<a href="job-list.html">-->
-							<!--<div class="category-icon"><img src="/static/jobsite/images/icon/1.png" alt="images" class="img-responsive"></div>-->
-							<!--<span class="category-title">Accounting/Finance</span>-->
-							<!--<span class="category-quantity">(1298)</span>-->
-						<!--</a>-->
-					<!--</li>&lt;!&ndash; category-item &ndash;&gt;-->
-
-					<!--<li class="category-item">-->
-						<!--<a href="job-list.html">-->
-							<!--<div class="category-icon"><img src="/static/jobsite/images/icon/2.png" alt="images" class="img-responsive"></div>-->
-							<!--<span class="category-title">Education/Training</span>-->
-							<!--<span class="category-quantity">(76212)</span>-->
-						<!--</a>-->
-					<!--</li>&lt;!&ndash; category-item &ndash;&gt;-->
-
-					<!--<li class="category-item">-->
-						<!--<a href="job-list.html">-->
-							<!--<div class="category-icon"><img src="/static/jobsite/images/icon/3.png" alt="images" class="img-responsive"></div>-->
-							<!--<span class="category-title">Engineer/Architects</span>-->
-							<!--<span class="category-quantity">(212)</span>-->
-						<!--</a>-->
-					<!--</li>&lt;!&ndash; category-item &ndash;&gt;-->
-
-					<!--<li class="category-item">-->
-						<!--<a href="job-list.html">-->
-							<!--<div class="category-icon"><img src="/static/jobsite/images/icon/4.png" alt="images" class="img-responsive"></div>-->
-							<!--<span class="category-title">Garments/Textile</span>-->
-							<!--<span class="category-quantity">(972)</span>-->
-						<!--</a>-->
-					<!--</li>&lt;!&ndash; category-item &ndash;&gt;-->
-
-					<!--<li class="category-item">-->
-						<!--<a href="job-list.html">-->
-							<!--<div class="category-icon"><img src="/static/jobsite/images/icon/5.png" alt="images" class="img-responsive"></div>-->
-							<!--<span class="category-title">HR/Org. Development</span>-->
-							<!--<span class="category-quantity">(1298)</span>-->
-						<!--</a>-->
-					<!--</li>&lt;!&ndash; category-item &ndash;&gt;-->
-
-					<!--<li class="category-item">-->
-						<!--<a href="job-list.html">-->
-							<!--<div class="category-icon"><img src="/static/jobsite/images/icon/6.png" alt="images" class="img-responsive"></div>-->
-							<!--<span class="category-title">Design/Creative</span>-->
-							<!--<span class="category-quantity">(76212)</span>-->
-						<!--</a>-->
-					<!--</li>&lt;!&ndash; category-item &ndash;&gt;-->
-
-					<!--<li class="category-item">-->
-						<!--<a href="job-list.html">-->
-							<!--<div class="category-icon"><img src="/static/jobsite/images/icon/7.png" alt="images" class="img-responsive"></div>-->
-							<!--<span class="category-title">Research/Consultancy</span>-->
-							<!--<span class="category-quantity">(1298)</span>-->
-						<!--</a>-->
-					<!--</li>&lt;!&ndash; category-item &ndash;&gt;-->
-
-					<!--<li class="category-item">-->
-						<!--<a href="job-list.html">-->
-							<!--<div class="category-icon"><img src="/static/jobsite/images/icon/8.png" alt="images" class="img-responsive"></div>-->
-							<!--<span class="category-title">Medical/Pharma</span>-->
-							<!--<span class="category-quantity">(76212)</span>-->
-						<!--</a>-->
-					<!--</li>&lt;!&ndash; category-item &ndash;&gt;-->
-
-					<!--<li class="category-item">-->
-						<!--<a href="job-list.html">-->
-							<!--<div class="category-icon"><img src="/static/jobsite/images/icon/9.png" alt="images" class="img-responsive"></div>-->
-							<!--<span class="category-title">Music & Arts</span>-->
-							<!--<span class="category-quantity">(212)</span>-->
-						<!--</a>-->
-					<!--</li>&lt;!&ndash; category-item &ndash;&gt;-->
-
-					<!--<li class="category-item">-->
-						<!--<a href="job-list.html">-->
-							<!--<div class="category-icon"><img src="/static/jobsite/images/icon/10.png" alt="images" class="img-responsive"></div>-->
-							<!--<span class="category-title">Marketing/Sales</span>-->
-							<!--<span class="category-quantity">(1298)</span>-->
-						<!--</a>-->
-					<!--</li>&lt;!&ndash; category-item &ndash;&gt;-->
-
-					<!--<li class="category-item">-->
-						<!--<a href="job-list.html">-->
-							<!--<div class="category-icon"><img src="/static/jobsite/images/icon/11.png" alt="images" class="img-responsive"></div>-->
-							<!--<span class="category-title">Production/Operation</span>-->
-							<!--<span class="category-quantity">(124)</span>-->
-						<!--</a>-->
-					<!--</li>&lt;!&ndash; category-item &ndash;&gt;-->
-
-					<!--<li class="category-item">-->
-						<!--<a href="job-list.html">-->
-							<!--<div class="category-icon"><img src="/static/jobsite/images/icon/12.png" alt="images" class="img-responsive"></div>-->
-							<!--<span class="category-title">Miscellaneous</span>-->
-							<!--<span class="category-quantity">(972)</span>-->
-						<!--</a>-->
-					<!--</li>&lt;!&ndash; category-item &ndash;&gt;-->
-				<!--</ul>-->
-			<!--</div>&lt;!&ndash; category ad &ndash;&gt;-->
-
 			<div class="section latest-jobs-ads">
 				<div class="section-title tab-manu">
 					<h4>Latest Jobs</h4>
