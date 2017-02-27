@@ -1,14 +1,19 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login, logout
 from portfolio import forms as portfolioform
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, response
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
+from .models import *
+# from reportlab.pdfgen import canvas
+# from reportlab.lib.pagesizes import letter
+# from reportlab.lib.pagesizes import A4
+# from reportlab.platypus import Image
 
 
-# Create your views here.
 def index(request):
 
     return render(request, 'index.html')
@@ -22,7 +27,7 @@ def signin(request):
             if user.is_active:
                 login(request, user)
 
-            return render(request, 'index.html')
+            return HttpResponseRedirect('/index')
         else:
             messages.add_message(request, messages.INFO, 'Username/Password do not match. Please try again.')
             return render(request, 'signin.html')
@@ -83,3 +88,51 @@ def signup(request):
     else:
         userfrm = portfolioform.Userform()
         return render(request, 'signup.html', {'userform': userfrm})
+
+
+@login_required(login_url="signin/")
+def biodata(request,Id):
+    try:
+        bdexist = BiodataModel.objects.get(user_id=Id)
+    except BiodataModel.DoesNotExist:
+        bdexist = None
+
+    if request.method == 'POST':
+        frm = portfolioform.BiodataForm(request.POST, request.FILES)
+        bdata = BiodataModel.objects.create(user_id=request.user.id)
+        bdata.fathername = request.POST['fathername']
+        bdata.dob = request.POST['dob']
+        bdata.marital_status = request.POST['marital_status']
+        bdata.qualification = request.POST['qualification']
+        bdata.address = request.POST['address']
+        bdata.old_erp_esic_numbr = request.POST['old_erp_esic_numbr']
+        bdata.bank_acnt = request.POST['bank_acnt']
+        bdata.ifsc_code = request.POST['ifsc_code']
+        bdata.police_station = request.POST['police_station']
+        bdata.idnty_mark = request.POST['idnty_mark']
+        bdata.dateofjoining = request.POST['dateofjoining']
+        bdata.experience = request.POST['experience']
+        bdata.preffered_jobs = request.POST['preffered_jobs']
+        bdata.pic = request.FILES['pic']
+        bdata.save()
+
+        return redirect('profile', Id=request.user.id)
+    else:
+        frm = portfolioform.BiodataForm()
+
+        return render(request, 'biodata.html',{'frm':frm})
+
+
+@login_required(login_url="signin/")
+def profile(request,Id):
+    try:
+        bdata = BiodataModel.objects.get(user_id=Id)
+    except BiodataModel.DoesNotExist:
+        bdata = None
+
+    return render(request,'profile.html', {'bdata':bdata})
+
+
+def biodataPDFView(request):
+
+    return render(request,'biodatapdf.html')

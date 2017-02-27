@@ -1,6 +1,6 @@
-<!DOCTYPE html>
 <html lang="en">
 
+<!-- Mirrored from demo.themeregion.com/jobs-updated/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 31 Jan 2017 19:26:05 GMT -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +10,7 @@
 
     <title>Jobs | Job Portal / Job Board HTML Template</title>
 
-    <!-- CSS -->
+   <!-- CSS -->
     <link rel="stylesheet" href="/static/jobsite/css/bootstrap.min.css" >
     <link rel="stylesheet" href="/static/jobsite/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/static/jobsite/css/icofont.css">
@@ -24,7 +24,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Signika+Negative:400,300,600,700' rel='stylesheet' type='text/css'>
 
 	<!-- icons -->
-	<link rel="icon" href="/static/jobsite/images/ico/favicon.ico">
+	<link rel="icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon" sizes="144x144" href="/static/jobsite/images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon" sizes="114x114" href="/static/jobsite/images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/static/jobsite/images/ico/apple-touch-icon-72-precomposed.html">
@@ -70,7 +70,7 @@
 							{% endif %}
 							<li class="dropdown active"><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Pages<span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li><a href="profile.html">profile</a></li>
+									<li class="active"><a href="profile.html">profile</a></li>
 									<li><a href="post-resume.html">Post Resume</a></li>
 									<li><a href="post.html">Job Post</a></li>
 									<li><a href="edit-resume.html">Edit Resume</a></li>
@@ -78,7 +78,7 @@
 									<li><a href="bookmark.html">Bookmark</a></li>
 									<li><a href="applied-job.html">Applied Job</a></li>
 									<li><a href="delete-account.html">Close Account</a></li>
-									<li class="active"><a href="signup.html">Job Signup</a></li>
+									<li><a href="signup.html">Job Signup</a></li>
 									<li><a href="signin.html">Job Signin</a></li>
 								</ul>
 							</li>
@@ -90,8 +90,13 @@
 				<div class="nav-right">
 					<ul class="sign-in">
 						<li><i class="fa fa-user"></i></li>
+						{% if request.user.id %}
+						<li><a href="javascript:void(0);">Welcome {{request.user.first_name}}</a></li>
+						<li><a href="/signout/">Signout</a></li>
+						{% else %}
 						<li><a href="/signin/">Sign In</a></li>
 						<li><a href="/signup/">Register</a></li>
+						{% endif %}
 					</ul><!-- sign-in -->
 
 					<a href="post.html" class="btn">Post Your Job</a>
@@ -101,59 +106,149 @@
 		</nav><!-- navbar -->
 	</header><!-- header -->
 
-	<section class="job-bg user-page">
+	<section class=" job-bg page  ad-profile-page">
 		<div class="container">
-			<div class="row text-center">
-				<!-- user-login -->
-				<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-					<div class="user-account job-user-account">
-						<h2>Create An Account</h2>
-					 	<div class="col-lg-12 col-md-12">
-						{% if messages %}
-							{% for message in messages %}
-								<div class="alert alert-success">
-									<button type="button" class="close" data-dismiss="alert">x</button>
-									{{ message }}
-								</div>
-							{% endfor %}
-						{% endif %}
-						</div>
-							<!--<ul class="nav nav-tabs text-center" role="tablist">-->
-								<!--<li role="presentation" class="active"><a href="#find-job" aria-controls="find-job" role="tab" data-toggle="tab">Find A Job</a></li>-->
-								<!--<li role="presentation"><a href="#post-job" aria-controls="post-job" role="tab" data-toggle="tab">Post A Job</a></li>-->
-							<!--</ul>-->
+			<div class="breadcrumb-section">
+				<ol class="breadcrumb">
+					<li><a href="index-2.html">Home</a></li>
+					<li>Employee Profile</li>
+				</ol>
+				<h2 class="title">My Profile</h2>
+			</div><!-- breadcrumb-section -->
 
-							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane active" id="find-job">
-									<form method="post" action="">
-                                        {% csrf_token %}
-										<div class="form-group">
-                                            {{userform.first_name}}
-										</div>
-										<div class="form-group">
-											{{userform.last_name}}
-										</div>
-                                        <div class="form-group">
-											{{userform.username}}
-										</div>
-										<div class="form-group">
-											{{userform.password}}
-										</div>
-										<div class="form-group">
-											{{userform.password_confirm}}
-										</div>
-										<div class="form-group">
-											{{userform.email}}
-										</div>
-										<button type="submit" class="btn">Registration</button>
-									</form>
-								</div>
-							</div>
+			<div class="resume-content">
+				<div class="profile section clearfix">
+					<div class="profile-logo">
+					    <img class="img-responsive" style="height: 181px;width: 151px;" src="{{bdata.pic.url}}" alt="Image">
 					</div>
-				</div><!-- user-login -->
-			</div><!-- row -->
+					<div class="profile-info">
+					    <h1>{{bdata.user.first_name | title}} {{bdata.user.last_name | title}}</h1>
+					    <address>
+					        <p>Address: {{bdata.address}} <br> Phone: +012 345 678 910 <br> Email: {{bdata.user.email}}</p>
+					    </address>
+					</div>
+				</div><!-- profile -->
+
+				<!--<div class="career-objective section">-->
+			        <!--<div class="icons">-->
+			            <!--<i class="fa fa-black-tie" aria-hidden="true"></i>-->
+			        <!--</div>-->
+			        <!--<div class="career-info">-->
+			        	<!--<h3>Career Objective</h3>-->
+			        	<!--<p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></p>-->
+			        	<!--<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni।</p>-->
+			        <!--</div>-->
+				<!--</div>&lt;!&ndash; career-objective &ndash;&gt;-->
+
+				<div class="work-history section">
+			        <div class="icons">
+			            <i class="fa fa-briefcase" aria-hidden="true"></i>
+			        </div>
+			        <div class="work-info">
+			        	<h3>Work History</h3>
+			        	<ul>
+			        		<li>
+				        		<!--<h4>Senior Graphic Designer @ Buildomo <span>2012 - Present</span></h4>-->
+				        		<p>{{bdata.experience}}</p>
+			        		</li>
+			        	</ul>
+			        </div>
+				</div><!-- work-history -->
+
+				<div class="educational-background section">
+					<div class="icons">
+					    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+					</div>
+					<div class="educational-info">
+						<h3>Education Background</h3>
+						<ul>
+							<li>
+								<!--<h4>Masters of Arts @ Montana Satet University</h4>-->
+								<!--<ul>-->
+									<!--<li>Year: <span>1999 - 2001</span> </li>-->
+									<!--<li>Concentration/Major: <span>Major in Accounting</span></li>-->
+									<!--<li>Course Duration: <span>2 Years</span></li>-->
+									<!--<li>Result: <span>4.00</span></li>-->
+								<!--</ul>-->
+								<p>{{bdata.qualification}}</p>
+							</li>
+
+						</ul>
+					</div>
+				</div><!-- educational-background -->
+
+				<div class="language-proficiency section">
+			        <div class="icons">
+			            <i class="fa fa-credit-card" aria-hidden="true"></i>
+			        </div>
+				    <div class="proficiency">
+				    	<h3>Financial Details</h3>
+				        <ul class="list-inline">
+				            <li>
+				                <h5>Bank Account Number</h5>
+				                <p>{{bdata.bank_acnt}}</p>
+				            </li>
+				            <li>
+				                <h5>IFSC Code</h5>
+				                <p>{{bdata.ifsc_code}}</p>
+				            </li>
+				            <li>
+				                <h5>Old EPF & ESIC Number</h5>
+				                <p>{{bdata.old_erp_esic_numbr}}</p>
+				            </li>
+				        </ul>
+				    </div>
+				</div><!-- language-proficiency -->
+
+				<div class="personal-deatils section">
+				    <div class="icons">
+				        <i class="fa fa-user-secret" aria-hidden="true"></i>
+				    </div>
+				    <div class="personal-info">
+				    	<h3>Personal Details</h3>
+				        <ul class="address">
+				            <li><h5>Full Name </h5> <span>:</span>{{bdata.user.first_name | title}} {{bdata.user.last_name | title}}</li>
+				            <li><h5>Father's Name </h5> <span>:</span>{{bdata.fathername | title}}</li>
+							<li><h5>Date of Birth </h5> <span>:</span>{{bdata.dob | date}}</li>
+				            <li><h5>Nationality </h5> <span>:</span>Indian</li>
+				            <li><h5>Marital Status </h5> <span>:</span>{{bdata.get_marital_status_display}}</li>
+				            <li><h5>Address </h5> <span>:</span>{{bdata.address}}</li>
+				        </ul>
+				    </div>
+				</div><!-- personal-deatils -->
+
+				<div class="special-qualification: section">
+					<div class="icons">
+					    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+					</div>
+					<div class="qualification">
+						<h3>Preffered Jobs</h3>
+						<p>{{bdata.preffered_jobs}}</p>
+					</div>
+				</div><!-- educational-background -->
+
+				<div class="declaration section">
+			        <div class="icons">
+			            <i class="fa fa-hand-peace-o" aria-hidden="true"></i>
+			        </div>
+			        <div class="declaration-info">
+			        	<h3>Declaration</h3>
+			        	<p><span> I hereby declare that the details furnished above are true and correct to the best of my knowledge
+							and belief and I undertake to inform you of any changes therein, immediately. In case any of the above
+							information is found to be false or untrue or misleading or misrepresenting, I am aware that I may be held liable
+							for it. I hereby authorize sharing of the information furnished on this form with the <b>Shakya Outsourcing Solutions.</b></span></p>
+			        </div>
+				</div><!-- career-objective -->
+				<div class="buttons">
+					<a href="#" class="btn">Update Profile</a>
+					<a href="#" class="btn cancle">Cancel</a>
+				</div>
+				<div class="download-button resume">
+					<a href="#" class="btn">Download Resume as doc</a>
+				</div>
+			</div><!-- resume-content -->
 		</div><!-- container -->
-	</section><!-- signup-page -->
+	</section><!-- ad-profile-page -->
 
 	<!-- footer -->
 	<footer id="footer" class="clearfix">
@@ -222,7 +317,7 @@
 
 		<div class="footer-bottom clearfix text-center">
 			<div class="container">
-				<p>Copyright &copy; <a href="#">Jobs</a> 2017. Developed by <a href="javascript:void(0);">Aditya Sharma and Rochan Sharma</a></p>
+				<p>Copyright &copy; <a href="#">Jobs</a> 2017. Developed by <a href="http://themeregion.com/">ThemeRegion</a></p>
 			</div>
 		</div><!-- footer-bottom -->
 	</footer><!-- footer -->
@@ -236,5 +331,4 @@
 
   </body>
 
-<!-- Mirrored from demo.themeregion.com/jobs-updated/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 31 Jan 2017 19:26:06 GMT -->
 </html>

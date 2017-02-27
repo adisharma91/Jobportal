@@ -1757,7 +1757,7 @@ a.verified i {
 
 .user-pro-section select, 
 .user-pro-section input {
-	color: #a0a0a0;
+	/*color: #a0a0a0;*/
 	font-size: 16px;
 	height:43px;
 }
@@ -2545,11 +2545,11 @@ input:-moz-placeholder {
 }
 
 .job-profile .user-pro-section .form-control {
-	width: 85%;
+	width: 80%;
 }
 
 .job-profile .user-pro-section label {
-	width: 15%;
+	width: 20%;
 	margin-top: 10px;
 }
 
