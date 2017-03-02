@@ -56,7 +56,7 @@ WSGI_APPLICATION = 'jobpotal.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql',      #postgresql_psycopg2 for ubuntu
         'NAME': 'jobportal',
         'USER': 'postgres',
         'PASSWORD': '123',
