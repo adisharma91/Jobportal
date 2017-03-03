@@ -146,4 +146,4 @@ def check_user_exists_or_not(request):
                 return HttpResponseRedirect(response)
         except:
                 responce = 'False'
-                return HttpResponseRedirect(respon
+                return HttpResponseRedirect(response)
