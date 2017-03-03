@@ -136,3 +136,14 @@ def profile(request,Id):
 def biodataPDFView(request):
 
     return render(request,'biodatapdf.html')
+
+def check_user_exists_or_not(request):
+    if request.method == 'POST':
+        try:
+            if User.objects.filter(username=request.POST.get('username')).exists():
+                print asd;
+                responce = 'True'
+                return HttpResponseRedirect(response)
+        except:
+                responce = 'False'
+                return HttpResponseRedirect(respon

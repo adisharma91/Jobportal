@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="/static/jobsite/css/main.css">
 	<link id="preset" rel="stylesheet" href="/static/jobsite/css/presets/preset1.css">
     <link rel="stylesheet" href="/static/jobsite/css/responsive.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/static/jQueryValidationEngine/css/validationEngine.jquery.css">
 
 	<!-- font -->
 	<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,300' rel='stylesheet' type='text/css'>
@@ -114,15 +116,15 @@
 			<h3>We offer 12000 jobs vacation right now</h3>
 			<div class="banner-form">
 				<form action="#">
-					<input type="text" class="form-control" placeholder="Type your key word">
-					<div class="dropdown category-dropdown">
+					<input type="text" id="tags" class="form-control" placeholder="Type your key word">
+					<!-- <div class="dropdown category-dropdown">
 						<a data-toggle="dropdown" href="#"><span class="change-text">Job Location</span> <i class="fa fa-angle-down"></i></a>
 						<ul class="dropdown-menu category-change">
 							<li><a href="#">Location 1</a></li>
 							<li><a href="#">Location 2</a></li>
 							<li><a href="#">Location 3</a></li>
 						</ul>
-					</div><!-- category-change -->
+					</div><!-- category-change --> -->
 					<button type="submit" class="btn btn-primary" value="Search">Search</button>
 				</form>
 			</div><!-- banner-form -->
@@ -669,10 +671,13 @@
     <!-- JS -->
     <script src="/static/jobsite/js/jquery.min.js"></script>
     <script src="/static/jobsite/js/bootstrap.min.js"></script>
+    <script src="/static/jobsite/js/jobsite.js"></script>
     <script src="/static/jobsite/js/price-range.js"></script>
     <script src="/static/jobsite/js/main.js"></script>
 	<script src="/static/jobsite/js/switcher.js"></script>
-
+    <script src="/static/JqueryAutoComplete/js/jqueryautocomplete.js"></script>
+    <script src="/static/jQueryValidationEngine/js/jquery.validationEngine.js"></script>
+	<script src="/static/jQueryValidationEngine/js/jquery.validationEngine-en.js"></script>
   </body>
 
 <!-- Mirrored from demo.themeregion.com/jobs-updated/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 31 Jan 2017 19:24:06 GMT -->

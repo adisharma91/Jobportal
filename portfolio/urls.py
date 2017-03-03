@@ -10,4 +10,5 @@ urlpatterns = [
      url(r'^profile/(?P<Id>[\w-]+)$', views.profile, name='profile'),
      url(r'^forgotpassword/$', views.forgotpassword, name='forgotpassword'),
      url(r'^biodatapdf/$', views.biodataPDFView, name='biodatapdf'),
+     url(r'^check_user_exists_or_not/$', views.check_user_exists_or_not, name='check_user_exists_or_not'),
 ]
