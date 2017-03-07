@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login, logout
 from portfolio import forms as portfolioform
@@ -8,6 +9,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 from .models import *
+# import pdfkit
 # from reportlab.pdfgen import canvas
 # from reportlab.lib.pagesizes import letter
 # from reportlab.lib.pagesizes import A4
@@ -137,13 +139,13 @@ def biodataPDFView(request):
 
     return render(request,'biodatapdf.html')
 
-def check_user_exists_or_not(request):
-    if request.method == 'POST':
-        try:
-            if User.objects.filter(username=request.POST.get('username')).exists():
-                print asd;
-                responce = 'True'
-                return HttpResponseRedirect(response)
-        except:
-                responce = 'False'
-                return HttpResponseRedirect(response)
+# def check_user_exists_or_not(request):
+#     if request.method == 'POST':
+#         try:
+#             if User.objects.filter(username=request.POST.get('username')).exists():
+#                 print asd;
+#                 responce = 'True'
+#                 return HttpResponseRedirect(response)
+#         except:
+#                 responce = 'False'
+#                 return HttpResponseRedirect(response)

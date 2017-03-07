@@ -6,10 +6,9 @@ from django.conf import settings
 
 class Userform(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Username'}))
-    first_name =  forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','required':'false', 'placeholder':'Firstname'}))
+    first_name =  forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Firstname'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Lastname'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password'}), required=True, help_text='Password must be 8 characters minimum length (with at least 1 lower case, 1 upper case and 1 number).')
-    # password_confirm = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Confirm Password'}),required=True)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'Email'}))
 
     class Meta:

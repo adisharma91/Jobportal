@@ -1,9 +1,10 @@
 //jobsite.js
 $(document).ready(function(){
 
-$('#myform').validationEngine({autoHidePrompt:true});
+$('.form').validationEngine({autoHidePrompt:true, scroll: false});
 
 $("#submitbtn").validationEngine('validate');
+$("#signupbtn").validationEngine('validate');
 
     var availableTags = [
       "ActionScript",
