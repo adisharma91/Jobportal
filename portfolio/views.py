@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 from .models import *
-# import pdfkit
+import pdfkit
 # from reportlab.pdfgen import canvas
 # from reportlab.lib.pagesizes import letter
 # from reportlab.lib.pagesizes import A4
@@ -125,7 +125,7 @@ def biodata(request,Id):
         return render(request, 'biodata.html',{'frm':frm})
 
 
-@login_required(login_url="signin/")
+# @login_required(login_url="signin/")
 def profile(request,Id):
     try:
         bdata = BiodataModel.objects.get(user_id=Id)
@@ -136,8 +136,13 @@ def profile(request,Id):
 
 
 def biodataPDFView(request):
+    pdf = pdfkit.from_file('templates/demopdf.html',False)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="biodata.pdf"'
+    return response
 
-    return render(request,'biodatapdf.html')
+
+    # return render(request,'biodatapdf.html')
 
 # def check_user_exists_or_not(request):
 #     if request.method == 'POST':
