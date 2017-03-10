@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 from .models import *
+import json
 import pdfkit
 # from reportlab.pdfgen import canvas
 # from reportlab.lib.pagesizes import letter
@@ -144,13 +145,28 @@ def biodataPDFView(request):
 
     # return render(request,'biodatapdf.html')
 
-# def check_user_exists_or_not(request):
-#     if request.method == 'POST':
-#         try:
-#             if User.objects.filter(username=request.POST.get('username')).exists():
-#                 print asd;
-#                 responce = 'True'
-#                 return HttpResponseRedirect(response)
-#         except:
-#                 responce = 'False'
-#                 return HttpResponseRedirect(response)
+def check_user_exists_or_not(request):
+    if request.method == 'POST':
+
+        username = request.POST.get('username')
+        try:
+            if User.objects.filter(username=username).exists():
+                return HttpResponse('Already_used')
+            else:
+                return HttpResponse('Not_used')
+        except:
+                return HttpResponse('False')
+
+
+def all_jobs_list(request):
+    data =  User.objects.all()
+    DataArray = []
+    if data.exists():
+
+        for code in data:
+            try:
+                DataArray.append('{}'.format(code.username))
+            except UnicodeEncodeError:
+                DataArray.append('{}'.format(code.firstname.encode("utf-8")))
+    return HttpResponse(json.dumps(DataArray), content_type="application/json")
+
