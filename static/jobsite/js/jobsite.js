@@ -60,10 +60,15 @@ $( "#tags" ).autocomplete({
   source: availableTags
 });
 
+if( $('.regis').val().length = 0)
+    {
+        $('.glyphicon').closest('span').remove();
+    }
+
 $('.regis').on('input',function(){
   $('.glyphicon').closest('span').remove();
   var username = $("input[name='username']").val();
- // alert(username);
+
       $.ajax({
             type:"POST",
             url: "/check_user_exists_or_not/",
