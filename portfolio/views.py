@@ -18,8 +18,9 @@ import pdfkit
 
 
 def index(request):
+    user_numbr = User.objects.all().count()
 
-    return render(request, 'index.html')
+    return render(request, 'index.html' , {'user_numbr' : user_numbr})
 
 
 def signin(request):
