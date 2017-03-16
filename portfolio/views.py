@@ -144,9 +144,6 @@ def biodataPDFView(request):
     except BiodataModel.DoesNotExist:
         bdexist = None
 
-    # path_wkhtmltopdf  = r'C:\Python27\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    # config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-    # pdf = pdfkit.from_url('http://127.0.0.1:8000/pdfdata/1',False, configuration=config)
     pdf = pdfkit.from_url('http://127.0.0.1:8000/pdfdata/1',False)
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="biodata.pdf"'
