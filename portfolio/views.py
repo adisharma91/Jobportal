@@ -139,16 +139,17 @@ def profile(request,Id):
 
 def biodataPDFView(request):
     try:
-        bdexist = BiodataModel.objects.get(user_id=request.user.id)
         uid = request.user.id
-        print bdexist.fathername
-    except BiodataModel.DoesNotExist:
-        bdexist = None
+    except uid.DoesNotExist:
+        uid = None
 
-    pdf = pdfkit.from_url(('http://127.0.0.1:8000/pdfdata/%d' %uid) ,False)
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="biodata.pdf"'
-    return response
+    if uid is not None:
+        pdf = pdfkit.from_url(('http://127.0.0.1:8000/pdfdata/%d' %uid) ,False)
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="biodata.pdf"'
+        return response
+    else:
+        return False
 
 
 def pdfdata(request,Id):
