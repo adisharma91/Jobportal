@@ -138,13 +138,26 @@ def profile(request,Id):
 
 
 def biodataPDFView(request):
-    pdf = pdfkit.from_file('templates/demopdf.html',False)
+    try:
+        bdexist = BiodataModel.objects.get(user_id=request.user.id)
+        print bdexist.fathername
+    except BiodataModel.DoesNotExist:
+        bdexist = None
+
+    pdf = pdfkit.from_url('http://127.0.0.1:8000/pdfdata/1',False)
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="biodata.pdf"'
     return response
 
 
-    # return render(request,'biodatapdf.html')
+def pdfdata(request,Id):
+    try:
+        bdata = BiodataModel.objects.get(user_id=Id)
+    except BiodataModel.DoesNotExist:
+        bdata = None
+
+    return render(request, 'demopdf.html' ,{'bdata':bdata})
+
 
 def check_user_exists_or_not(request):
     if request.method == 'POST':

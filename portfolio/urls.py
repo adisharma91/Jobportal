@@ -12,4 +12,5 @@ urlpatterns = [
      url(r'^biodatapdf/$', views.biodataPDFView, name='biodatapdf'),
      url(r'^check_user_exists_or_not/$', views.check_user_exists_or_not, name='check_user_exists_or_not'),
      url(r'^all_jobs_list/$', views.all_jobs_list, name='all_jobs_list'),
+     url(r'^pdfdata/(?P<Id>[\w-]+)$', views.pdfdata, name='pdfdata'),
 ]
