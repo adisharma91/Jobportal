@@ -19,8 +19,11 @@ import pdfkit
 
 def index(request):
     user_numbr = User.objects.all().count()
+    jobs = JobsModel.objects.all()
 
-    return render(request, 'index.html' , {'user_numbr' : user_numbr})
+    return render(request, 'index.html' , {'user_numbr' : user_numbr,
+                                           'jobs': jobs
+                                           })
 
 
 def signin(request):
