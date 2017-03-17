@@ -186,3 +186,36 @@ def all_jobs_list(request):
                 DataArray.append('{}'.format(code.firstname.encode("utf-8")))
     return HttpResponse(json.dumps(DataArray), content_type="application/json")
 
+
+def postjob(request):
+    if request.method == 'POST':
+        frm = portfolioform.JobsForm(request.POST, request.FILES)
+
+        logo = request.FILES.get('dept_logo')
+        if logo:
+           frm.save()
+        else:
+            job = JobsModel.objects.create(description=request.POST['description'],
+                                           department=request.POST['department'],
+                                           location=request.POST['location'],
+                                           qualification=request.POST['qualification'],
+                                           experience=request.POST['experience'],
+                                           vacancies=request.POST['vacancies'],
+                                           salary=request.POST['salary'],
+                                           lastdate=request.POST['lastdate'],
+                                           interview_process=request.POST['interview_process'],
+                                           interview_venue=request.POST['interview_venue'],
+                                           doj=request.POST['doj'],
+                                           bondtime=request.POST['bondtime'],
+                                           about=request.POST['about'],
+                                           dept_logo='logo/soslogo.png'
+                                           )
+            job.save()
+
+        return HttpResponseRedirect('/index/')
+    else:
+        frm = portfolioform.JobsForm()
+
+        return render(request, 'postjobs.html',{'frm':frm})
+
+

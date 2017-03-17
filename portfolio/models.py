@@ -30,3 +30,32 @@ class BiodataModel(models.Model):
     emailverified = models.BooleanField(default=False)
     lastupdated = models.DateTimeField(auto_now_add=True)
     deleted = models.BooleanField(default=False)
+
+
+
+class JobsModel(models.Model):
+
+    Time = [
+        ('a','1 yr'),
+        ('b','2 yr'),
+        ('c','3 yr'),
+        ('d','4 yr'),
+        ('e','5 yr')
+    ]
+
+    description = models.CharField(max_length=200, null=True, blank=True)
+    department = models.CharField(max_length=200, null=True, blank=True)
+    about = models.CharField(max_length=500, null=True, blank=True)
+    location = models.CharField(max_length=200, null=True, blank=True)
+    qualification = models.CharField(max_length=200, null=True, blank=True)
+    experience = models.CharField(max_length=200, null=True, blank=True)
+    vacancies = models.IntegerField(null=True, blank=True)
+    salary = models.CharField(max_length=200, null=True, blank=True)
+    addedon = models.DateTimeField(auto_now_add=True)
+    lastdate = models.DateField(null=True, blank=True)
+    doj = models.DateField(null=True, blank=True)
+    interview_process = models.CharField(max_length=200, null=True, blank=True)
+    interview_venue = models.CharField(max_length=200, null=True, blank=True)
+    bondtime = models.CharField(max_length=50, choices=Time, null=True, blank=True)
+    dept_logo = models.FileField(upload_to='logo', null=True)
+    deleted = models.BooleanField(default=False)

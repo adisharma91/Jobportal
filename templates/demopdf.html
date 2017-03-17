@@ -6769,9 +6769,48 @@ button.close {
 
 
 </style>
+<style>
+.padtop50
+{
+padding-top:50px;
+}
 
+.padtop30
+{
+padding-top:25px;
+}
+
+.topics
+{
+line-height: 30px;
+ }
+
+ .paddleft10{
+ padding-left:10px;
+ }
+
+ .photoframe{
+ height:160px;
+ width: 140px;
+ float:right;
+ border:solid 1px;
+ z-index:5;
+ padding: 1px;
+ }
+
+.undrline{
+text-decoration: underline;
+}
+
+.image {
+  background-image:url(https://www.google.co.in/images/srpr/logo11w.png);
+  background-repeat:no-repeat;
+  background-position:center;
+}
+
+</style>
 <body>
-<div class="container bodystype" style="border:solid black 1px">
+<div class="container" style="border:solid black 1px">
     <div class="row">
         <div style="text-align:center;">
             <h1> Ameotech Imformatics <span style="font-size:15px !important;"> (Regd.)</span></h1>
@@ -6779,101 +6818,98 @@ button.close {
         <div style="text-align:center;">
             <h3>Mohali-136118</h3>
         </div>
-        <div style="text-align:center;">
-            <h2>Bio Data</h2>
-        </div>
     </div>
 
 
     <div class="row">
         <div class="col-lg-12">
-            <img class="img-responsive" style="height: 130px;width: 120px; float:right;" src="{{bdata.pic.url}}"
+            <img class="img-responsive photoframe" src="{{bdata.pic.url}}"
                  alt="Image">
         </div>
     </div>
 
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12 image">
             <table width="800" border="0" align="center" cellpadding="5">
                 <tr>
-                    <td colspan="2"><strong>Basic Info</strong>
+                    <td class="padtop30 " colspan="2"><strong>Basic Info</strong>
                         <hr/>
                     </td>
                 </tr>
                 <tr>
-                    <td width="50%" align="right"><strong>Full Name:</strong></td>
-                    <td>{{bdata.user.first_name | title}} {{bdata.user.last_name | title}}</td>
+                    <td class="topics" width="50%" align="right"><strong>Full Name:</strong></td>
+                    <td class="paddleft10">{{bdata.user.first_name | title}} {{bdata.user.last_name | title}}</td>
                 </tr>
                 <tr>
-                    <td align="right"><strong>Father's Name:</strong></td>
-                    <td>{{bdata.fathername | title}}</td>
+                    <td class="topics" align="right"><strong>Father's Name:</strong></td>
+                    <td class="paddleft10">{{bdata.fathername | title}}</td>
                 </tr>
                 <tr>
-                    <td align="right"><strong>Date of Birth:</strong></td>
-                    <td>{{bdata.dob | date:"d M Y"}}</td>
+                    <td class="topics" align="right"><strong>Date of Birth:</strong></td>
+                    <td class="paddleft10">{{bdata.dob | date:"d M Y"}}</td>
                 </tr>
                 <tr>
-                    <td align="right"><strong>Marital Status:</strong></td>
-                    <td>{{bdata.marital_status | title}}</td>
+                    <td class="topics" align="right"><strong>Marital Status:</strong></td>
+                    <td class="paddleft10">{{bdata.marital_status | title}}</td>
                 </tr>
                 <tr>
-                    <td align="right"><strong>Eduction:</strong></td>
-                    <td>{{bdata.qualification}}</td>
+                    <td class="topics" align="right"><strong>Eduction:</strong></td>
+                    <td class="paddleft10">{{bdata.qualification}}</td>
                 </tr>
                 <tr>
-                    <td colspan="2"><strong>Contact Details</strong>
+                    <td class="topics padtop30" colspan="2"><strong>Contact Details</strong>
                         <hr/>
                     </td>
                 </tr>
                 <tr>
-                    <td align="right" valign="top"><strong>Address:</strong></td>
-                    <td>{{bdata.address | title}}</td>
+                    <td class="topics" align="right" valign="top"><strong>Address:</strong></td>
+                    <td class="paddleft10">{{bdata.address | title}}</td>
                 </tr>
                 <tr>
-                    <td align="right" valign="top"><strong>Phone Number:</strong></td>
-                    <td>(R)0281-235645</br>
+                    <td class="topics" align="right" valign="top"><strong>Phone Number:</strong></td>
+                    <td class="paddleft10">(R)0281-235645</br>
                         (M)08167568749
                     </td>
                 </tr>
                 <tr>
-                    <td align="right"><strong>Email Address:</strong></td>
-                    <td>{{bdata.user.email}}</td>
+                    <td class="topics" align="right"><strong>Email Address:</strong></td>
+                    <td class="paddleft10">{{bdata.user.email}}</td>
                 </tr>
                 <tr>
-                    <td colspan="2"><strong>Eduction & Knowledge</strong>
+                    <td class="topics" class="padtop30" colspan="2"><strong>Eduction & Knowledge</strong>
                         <hr/>
                     </td>
                 </tr>
                 <tr>
-                    <td align="right"><strong>Old EPF & Esic Number:</strong></td>
-                    <td>{{bdata.old_erp_esic_numbr}}</td>
+                    <td class="topics" align="right"><strong>Old EPF & Esic Number:</strong></td>
+                    <td class="paddleft10">{{bdata.old_erp_esic_numbr}}</td>
                 </tr>
                 <tr>
-                    <td align="right"><strong>Police Station:</strong></td>
-                    <td>{{bdata.police_station}}</td>
+                    <td class="topics" align="right"><strong>Police Station:</strong></td>
+                    <td class="paddleft10">{{bdata.police_station}}</td>
                 </tr>
 
                 <tr>
-                    <td align="right"><strong>Date of Joining:</strong></td>
-                    <td>{{bdata.dateofjoining}}</td>
+                    <td class="topics" align="right"><strong>Date of Joining:</strong></td>
+                    <td class="paddleft10">{{bdata.dateofjoining}}</td>
                 </tr>
                 <tr>
-                    <td colspan="2"><strong>Experience</strong>
+                    <td class="topics padtop30" colspan="2"><strong>Experience</strong>
                         <hr/>
                     </td>
                 </tr>
                 <tr>
-                    <td align="right" valign="top"><strong>Experience:</strong></td>
-                    <td>{{bdata.experience}}
+                    <td class="topics" align="right" valign="top"><strong>Experience:</strong></td>
+                    <td class="paddleft10">{{bdata.experience}}
                     </td>
                 </tr>
                 <tr>
-                    <td align="right"><strong>Post:</strong></td>
-                    <td>{{bdata.preffered_jobs}}</td>
+                    <td class="topics" align="right"><strong>Post:</strong></td>
+                    <td class="paddleft10">{{bdata.preffered_jobs}}</td>
                 </tr>
 
                 <tr>
-                    <td colspan="2">Disclaimer : It is stated that statement givent above is true.
+                    <td  class="padtop50 topics" colspan="2">It is stated that statements given above is true.
                         <hr/>
                     </td>
                 </tr>
@@ -6883,18 +6919,9 @@ button.close {
 
 
     <div class="row">
-        <div class="col-md-offset-9 col-lg-3" style="padding-top:10px; padding-bottom:100px">
-            <h4><strong>Signature</strong></h4>
-            <div class="row">
-                <div class="col-md-12">
-                    Date:
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    Time
-                </div>
-            </div>
+        <div style="padding-top:30px;padding-left:680px;">
+            <h4 class="undrline"><strong>Signature</strong></h4>
+                    <h5 class="topics">Date:<br>Time</h5>
         </div>
     </div>
 </div>

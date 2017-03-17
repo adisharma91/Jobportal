@@ -1,5 +1,5 @@
 from django import forms
-from portfolio.models import BiodataModel
+from portfolio.models import BiodataModel, JobsModel
 from django.contrib.auth.models import User
 from django.conf import settings
 
@@ -44,3 +44,29 @@ class BiodataForm(forms.ModelForm):
             'pic': forms.FileInput()
         }
 
+
+class JobsForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(JobsForm, self).__init__(*args, **kwargs)
+        self.fields['bondtime'].choices = JobsModel.Time
+
+    class Meta:
+        model = JobsModel
+        fields = '__all__'
+
+        widgets = {
+            'description': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'department': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'location': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'qualification': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'experience': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'vacancies': forms.NumberInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'salary': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'lastdate': forms.DateInput(attrs={'class': 'form-control', 'id': 'datepicker1', 'required': 'true'}),
+            'interview_process': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'interview_venue': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'doj': forms.DateInput(attrs={'class': 'form-control', 'id': 'datepicker2', 'required': 'true'}),
+            'bondtime': forms.Select(attrs={'class': 'form-control'}),
+            'about': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'dept_logo': forms.FileInput()
+        }
