@@ -440,10 +440,10 @@
 	.banner-form-full.banner-form input {
 		min-width: 100%;
 	}
-	.pagination > li > a, 
+	/*.pagination > li > a,
 	.pagination > li > span{
 		padding:3px 8px;
-	}
+	}*/
 	.banner-form button.form-control {
 		margin-left:0;
 		border-radius:4px;
@@ -568,9 +568,9 @@
 	.job-list-item h4{
 		display:inline;
 	}
-	.pagination > li > a{
+	/*.pagination > li > a{
 		font-size:12px;
-	}
+	}*/
 	/* sign up */
 	.user-account {
 		padding:30px 30px 40px;
@@ -632,10 +632,10 @@
 	.short-info li a {
 		font-size:14px;
 	}
-	.pagination {
+	/*.pagination {
 		margin-top:0;
 		margin-bottom:25px;
-	}
+	}*/
 	.category-menu {
 		width: 50%;
 		margin-top: 0;

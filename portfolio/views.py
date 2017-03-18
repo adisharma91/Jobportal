@@ -11,15 +11,12 @@ from django.core.mail import send_mail
 from .models import *
 import json
 import pdfkit
-# from reportlab.pdfgen import canvas
-# from reportlab.lib.pagesizes import letter
-# from reportlab.lib.pagesizes import A4
-# from reportlab.platypus import Image
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def index(request):
     user_numbr = User.objects.all().count()
-    jobs = JobsModel.objects.all()
+    jobs = JobsModel.objects.filter().order_by('-id')[:10]
 
     return render(request, 'index.html' , {'user_numbr' : user_numbr,
                                            'jobs': jobs
@@ -34,7 +31,7 @@ def signin(request):
             if user.is_active:
                 login(request, user)
 
-            return HttpResponseRedirect('/index')
+            return HttpResponseRedirect('/')
         else:
             messages.add_message(request, messages.INFO, 'Username/Password do not match. Please try again.')
             return render(request, 'signin.html')
@@ -69,7 +66,7 @@ def forgotpassword(request):
 
 def signout(request):
     logout(request)
-    return redirect('index')
+    return redirect('/')
 
 
 def signup(request):
@@ -90,14 +87,14 @@ def signup(request):
                 to_list = [user.email, settings.EMAIL_HOST_USER]
 
                 send_mail(subject, message, from_email, to_list, fail_silently=True)
-                return HttpResponseRedirect('/index',{'userform': userfrm})
+                return HttpResponseRedirect('/',{'userform': userfrm})
 
     else:
         userfrm = portfolioform.Userform()
         return render(request, 'signup.html', {'userform': userfrm})
 
 
-@login_required(login_url="signin/")
+@login_required(login_url=settings.LOGIN_URL)
 def biodata(request,Id):
     try:
         bdexist = BiodataModel.objects.get(user_id=Id)
@@ -130,7 +127,7 @@ def biodata(request,Id):
         return render(request, 'biodata.html',{'frm':frm})
 
 
-# @login_required(login_url="signin/")
+@login_required(login_url=settings.LOGIN_URL)
 def profile(request,Id):
     try:
         bdata = BiodataModel.objects.get(user_id=Id)
@@ -140,19 +137,15 @@ def profile(request,Id):
     return render(request,'profile.html', {'bdata':bdata})
 
 
+@login_required(login_url=settings.LOGIN_URL)
 def biodataPDFView(request):
-    try:
-        uid = request.user.id
-    except uid.DoesNotExist:
-        uid = None
 
-    if uid is not None:
-        pdf = pdfkit.from_url(('http://127.0.0.1:8000/pdfdata/%d' %uid) ,False)
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="biodata.pdf"'
-        return response
-    else:
-        return False
+    uid = request.user.id
+
+    pdf = pdfkit.from_url(('http://127.0.0.1:8000/pdfdata/%d' %uid) ,False)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="biodata.pdf"'
+    return response
 
 
 def pdfdata(request,Id):
@@ -178,7 +171,7 @@ def check_user_exists_or_not(request):
 
 
 def all_jobs_list(request):
-    data =  User.objects.all()
+    data = User.objects.all()
     DataArray = []
     if data.exists():
 
@@ -190,6 +183,7 @@ def all_jobs_list(request):
     return HttpResponse(json.dumps(DataArray), content_type="application/json")
 
 
+@login_required(login_url=settings.LOGIN_URL)
 def postjob(request):
     if request.method == 'POST':
         frm = portfolioform.JobsForm(request.POST, request.FILES)
@@ -198,7 +192,8 @@ def postjob(request):
         if logo:
            frm.save()
         else:
-            job = JobsModel.objects.create(description=request.POST['description'],
+            job = JobsModel.objects.create(jobtitle=request.POST['jobtitle'],
+                                           description=request.POST['description'],
                                            department=request.POST['department'],
                                            location=request.POST['location'],
                                            qualification=request.POST['qualification'],
@@ -215,10 +210,27 @@ def postjob(request):
                                            )
             job.save()
 
-        return HttpResponseRedirect('/index/')
+        return HttpResponseRedirect('/')
     else:
         frm = portfolioform.JobsForm()
 
-        return render(request, 'postjobs.html',{'frm':frm})
+        return render(request, 'postjob.html',{'frm':frm})
 
 
+def jobsview(request):
+    try:
+        jobs_list = JobsModel.objects.all()
+    except JobsModel.DoesNotexist:
+        jobs_list = None
+
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(jobs_list, 5)
+    try:
+        jobs = paginator.page(page)
+    except PageNotAnInteger:
+        jobs = paginator.page(1)
+    except EmptyPage:
+        jobs = paginator.page(paginator.num_pages)
+
+    return render(request,'jobs.html',{'jobs':jobs})

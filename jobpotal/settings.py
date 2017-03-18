@@ -59,7 +59,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',      #postgresql_psycopg2 for ubuntu
         'NAME': 'jobportal',
         'USER': 'postgres',
-        'PASSWORD': '12345',
+        'PASSWORD': '123',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -90,6 +90,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = '/signin/'
 
 MEDIA_URL = '/media/'
 

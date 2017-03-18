@@ -43,12 +43,20 @@ class JobsModel(models.Model):
         ('e','5 yr')
     ]
 
-    description = models.CharField(max_length=200, null=True, blank=True)
+    ExperienceType = [
+        ('entry','Entry Level'),
+        ('mid','Mid Level'),
+        ('senior','Mid-Senior Level'),
+        ('top','Top Level')
+    ]
+
+    jobtitle = models.CharField(max_length=200, null=True, blank=True)
+    description = models.CharField(max_length=500, null=True, blank=True)
     department = models.CharField(max_length=200, null=True, blank=True)
     about = models.CharField(max_length=500, null=True, blank=True)
     location = models.CharField(max_length=200, null=True, blank=True)
     qualification = models.CharField(max_length=200, null=True, blank=True)
-    experience = models.CharField(max_length=200, null=True, blank=True)
+    experience = models.CharField(max_length=200, choices=ExperienceType, null=True, blank=True)
     vacancies = models.IntegerField(null=True, blank=True)
     salary = models.CharField(max_length=200, null=True, blank=True)
     addedon = models.DateTimeField(auto_now_add=True)

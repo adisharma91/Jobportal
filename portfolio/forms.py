@@ -49,21 +49,23 @@ class JobsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(JobsForm, self).__init__(*args, **kwargs)
         self.fields['bondtime'].choices = JobsModel.Time
+        self.fields['experience'].choices = JobsModel.ExperienceType
 
     class Meta:
         model = JobsModel
         fields = '__all__'
 
         widgets = {
-            'description': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'jobtitle': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'required': 'true', 'rows': 5}),
             'department': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
             'location': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
-            'qualification': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
-            'experience': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
-            'vacancies': forms.NumberInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'qualification': forms.Textarea(attrs={'class': 'form-control', 'required': 'true', 'rows': 5}),
+            'experience': forms.Select(attrs={'class': 'form-control', 'required': 'true'}),
+            'vacancies': forms.NumberInput(attrs={'class': 'form-control'}),
             'salary': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
             'lastdate': forms.DateInput(attrs={'class': 'form-control', 'id': 'datepicker1', 'required': 'true'}),
-            'interview_process': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
+            'interview_process': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'interview_venue': forms.TextInput(attrs={'class': 'form-control', 'required': 'true'}),
             'doj': forms.DateInput(attrs={'class': 'form-control', 'id': 'datepicker2', 'required': 'true'}),
             'bondtime': forms.Select(attrs={'class': 'form-control'}),
