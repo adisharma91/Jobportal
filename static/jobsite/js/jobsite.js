@@ -60,10 +60,10 @@ $( "#tags" ).autocomplete({
   source: availableTags
 });
 
-if( $('.regis').val().length = 0)
-    {
-        $('.glyphicon').closest('span').remove();
-    }
+//if( $('.regis').val().length = 0)
+//    {
+//        $('.glyphicon').closest('span').remove();
+//    }
 
 $('.regis').on('input',function(){
   $('.glyphicon').closest('span').remove();
@@ -91,5 +91,15 @@ $('.regis').on('input',function(){
 
   });
 
+  $('.applybtn').click(function(e){
+        e.preventDefault();
+        $(this).html('Applied').attr('disabled',true);
+        var action = $(this).data('href');
+        $.post(action,$('#applyfrm').serialize(), function(response){
+            if(response.success == 'true'){
+                window.location = window.location
+            }
+        })
+  })
 
 });

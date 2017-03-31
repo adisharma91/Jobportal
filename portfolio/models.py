@@ -32,7 +32,6 @@ class BiodataModel(models.Model):
     deleted = models.BooleanField(default=False)
 
 
-
 class JobsModel(models.Model):
 
     Time = [
@@ -67,3 +66,10 @@ class JobsModel(models.Model):
     bondtime = models.CharField(max_length=50, choices=Time, null=True, blank=True)
     dept_logo = models.FileField(upload_to='logo', null=True)
     deleted = models.BooleanField(default=False)
+
+
+class JobsApplied(models.Model):
+    jobid = models.ForeignKey(JobsModel, on_delete=models.CASCADE)
+    userid = models.ForeignKey(User, on_delete=models.CASCADE)
+    applied_on = models.DateTimeField(auto_now_add=True)
+

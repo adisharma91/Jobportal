@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login, logout
 from portfolio import forms as portfolioform
@@ -16,11 +16,22 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def index(request):
     user_numbr = User.objects.all().count()
-    jobs = JobsModel.objects.filter().order_by('-id')[:10]
 
-    return render(request, 'index.html' , {'user_numbr' : user_numbr,
-                                           'jobs': jobs
-                                           })
+    applied = JobsApplied.objects.filter(userid_id=request.user.id)
+
+    j = []
+    if applied:
+        for job in applied:
+            jb = job.jobid_id
+            j.append(jb)
+
+        jobs = JobsModel.objects.all().exclude(id__in=j).order_by('-id')[:10]
+
+        return render(request, 'index.html', {'user_numbr': user_numbr, 'jobs': jobs})
+    else:
+        jobs = JobsModel.objects.filter().order_by('-id')[:10]
+
+        return render(request, 'index.html', {'user_numbr': user_numbr, 'jobs': jobs})
 
 
 def signin(request):
@@ -138,11 +149,11 @@ def profile(request,Id):
 
 
 @login_required(login_url=settings.LOGIN_URL)
-def biodataPDFView(request):
-
-    uid = request.user.id
-
-    pdf = pdfkit.from_url(('http://127.0.0.1:8000/pdfdata/%d' %uid) ,False)
+def biodataPDFView(request,Id):
+    uid = int(Id)
+    # path_wkthmltopdf = r'C:\Python27\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    # config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
+    pdf = pdfkit.from_url(('http://127.0.0.1:8000/pdfdata/%d' %uid), False)
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="biodata.pdf"'
     return response
@@ -218,10 +229,17 @@ def postjob(request):
 
 
 def jobsview(request):
-    try:
-        jobs_list = JobsModel.objects.all()
-    except JobsModel.DoesNotexist:
-        jobs_list = None
+    applied = JobsApplied.objects.filter(userid_id=request.user.id)
+
+    j = []
+    if applied:
+        for job in applied:
+            jb = job.jobid_id
+            j.append(jb)
+
+        jobs_list = JobsModel.objects.all().exclude(id__in=j).order_by('-id')
+    else:
+        jobs_list = JobsModel.objects.all().order_by('-id')
 
     page = request.GET.get('page', 1)
 
@@ -233,4 +251,44 @@ def jobsview(request):
     except EmptyPage:
         jobs = paginator.page(paginator.num_pages)
 
-    return render(request,'jobs.html',{'jobs':jobs})
+    return render(request,'jobs.html', {'jobs': jobs})
+
+
+@login_required(login_url=settings.LOGIN_URL)
+def apply(request, Id):
+    if request.POST:
+        applied = JobsApplied.objects.create(jobid_id=Id,
+                                             userid_id=request.user.id
+                                             )
+        applied.save()
+
+    return JsonResponse({'success': True})
+
+
+def jobdetail(request, Id):
+    try:
+        job = JobsModel.objects.get(id=Id)
+    except JobsModel.DoesNotExist:
+        job = None
+
+    return render(request, 'jobdetails.html', {'job': job})
+
+
+@login_required(login_url=settings.LOGIN_URL)
+def users(request):
+    try:
+        users = BiodataModel.objects.all()
+    except BiodataModel.DoesNotExist:
+        users = None
+
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(users, 20)
+    try:
+        usrs = paginator.page(page)
+    except PageNotAnInteger:
+        usrs = paginator.page(1)
+    except EmptyPage:
+        usrs = paginator.page(paginator.num_pages)
+
+    return render(request, 'users.html', {'users': usrs})

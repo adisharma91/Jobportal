@@ -1,6 +1,6 @@
 <!DOCTYPE html>
+{% load humanize %}
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,18 +10,16 @@
 
     <title>Jobs | Job Portal / Job Board HTML Template</title>
 
-    <!-- CSS -->
+   <!-- CSS -->
     <link rel="stylesheet" href="/static/jobsite/css/bootstrap.min.css" >
     <link rel="stylesheet" href="/static/jobsite/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/static/jobsite/css/icofont.css">
     <link rel="stylesheet" href="/static/jobsite/css/slidr.css">
     <link rel="stylesheet" href="/static/jobsite/css/main.css">
-	<link rel="stylesheet" href="/static/jobsite/css/jobsite.css">
 	<link id="preset" rel="stylesheet" href="/static/jobsite/css/presets/preset1.css">
     <link rel="stylesheet" href="/static/jobsite/css/responsive.css">
-    <link rel="stylesheet" href="/static/jQueryValidationEngine/css/validationEngine.jquery.css">
-    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
-
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">-->
+    <link rel="stylesheet" href="/static/jobsite/css/datepicker.css">
 	<!-- font -->
 	<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,300' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Signika+Negative:400,300,600,700' rel='stylesheet' type='text/css'>
@@ -60,10 +58,10 @@
 				</div>
 				<!-- /navbar-header -->
 
-				<div class="navbar-left">
+                <div class="navbar-left">
 					<div class="collapse navbar-collapse" id="navbar-collapse">
 						<ul class="nav navbar-nav">
-							<li><a href="index-2.html">Home</a></li>
+							<li class="active"><a href="index-2.html">Home</a></li>
 							<li><a href="job-list.html">Job list</a></li>
 							<li><a href="details.html">Job Details</a></li>
 							{% if request.user.id %}
@@ -95,8 +93,13 @@
 				<div class="nav-right">
 					<ul class="sign-in">
 						<li><i class="fa fa-user"></i></li>
+						{% if request.user.id %}
+						<li><a href="javascript:void(0);">Welcome {{request.user.first_name | title}}</a></li>
+						<li><a href="/signout/">Signout</a></li>
+						{% else %}
 						<li><a href="/signin/">Sign In</a></li>
 						<li><a href="/signup/">Register</a></li>
+						{% endif %}
 					</ul><!-- sign-in -->
 					{% if request.user.is_staff %}
 					<a href="/postjob/" class="btn">Post Your Job</a>
@@ -107,64 +110,107 @@
 		</nav><!-- navbar -->
 	</header><!-- header -->
 
-	<section class="job-bg user-page">
+	<section class="job-bg page job-details-page">
 		<div class="container">
-			<div class="row text-center">
-				<!-- user-login -->
-				<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-					<div class="user-account job-user-account">
-						<h2>Create An Account</h2>
-					 	<div class="col-lg-12 col-md-12">
-						{% if messages %}
-							{% for message in messages %}
-								<div class="alert alert-success">
-									<button type="button" class="close" data-dismiss="alert">x</button>
-									{{ message }}
-								</div>
-							{% endfor %}
-						{% endif %}
-						</div>
-							<!--<ul class="nav nav-tabs text-center" role="tablist">-->
-								<!--<li role="presentation" class="active"><a href="#find-job" aria-controls="find-job" role="tab" data-toggle="tab">Find A Job</a></li>-->
-								<!--<li role="presentation"><a href="#post-job" aria-controls="post-job" role="tab" data-toggle="tab">Post A Job</a></li>-->
-							<!--</ul>-->
 
-							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane active" id="find-job">
-									<form class="form" method="post" action="">
-                                        {% csrf_token %}
-										<div class="form-group">
-											<input class="form-control validate[required]" id="id_first_name" name="first_name" placeholder="Firstname" type="text">
-                                            <!--{{userform.first_name}}-->
-										</div>
-										<div class="form-group">
-											<input class="form-control validate[required]" id="id_last_name" name="last_name" placeholder="Lastname" type="text">
-											<!--{{userform.last_name}}-->
-										</div>
-                                        <div class="form-group regis">
-											<input class="form-control validate[required]" id="id_username" name="username" placeholder="Username" type="text">
-											<!--{{userform.username}}-->
-										</div>
-										<div class="form-group">
-											<input class="form-control validate[required,minSize[6]]" id="id_password" name="password" placeholder="Password" type="password">
-											<!--{{userform.password}}-->
-										</div>
-										<div class="form-group">
-											<input type="password" class="form-control validate[required,equals[id_password]]" placeholder="Re-enter Password">
-										</div>
-										<div class="form-group">
-											<input class="form-control validate[custom[email],required]" id="id_email" name="email" placeholder="Email" type="text">
-											<!--{{userform.email}}-->
-										</div>
-										<button id="signupbtn" type="submit" class="btn">Registration</button>
-									</form>
+			<div class="job-details">
+				<form id="applyfrm" method="post" action="">
+				{% csrf_token %}
+				<div class="section job-ad-item">
+					<div class="item-info">
+						<div class="item-image-box">
+							<div class="item-image">
+								<img src="/media/{{job.dept_logo}}" alt="Image" class="img-responsive">
+							</div><!-- item-image -->
+						</div>
+
+						<div class="ad-info">
+							<span><span><a href="javascript://" class="title">{{job.jobtitle}}</a></span> @ <a href="javascript://"> {{job.department}}</a></span>
+							<div class="ad-meta">
+								<ul>
+									<li><a href="javascript://"><i class="fa fa-map-marker" aria-hidden="true"></i>{{job.location}}</a></li>
+									<li><a href="javascript://"><i class="fa fa-clock-o" aria-hidden="true"></i>Contract {{job.get_bondtime_display}}</a></li>
+									<li><a href="javascript://"><i class="fa fa-inr" aria-hidden="true"></i>{{job.salary | intcomma }}/Year</a></li>
+									<li><i class="fa fa-hourglass-start" aria-hidden="true"></i>Application Deadline : {{job.lastdate}}</li>
+								</ul>
+							</div><!-- ad-meta -->
+						</div><!-- ad-info -->
+					</div><!-- item-info -->
+					<div class="social-media">
+						<div class="button">
+							{% if request.user.is_authenticated %}
+							<button data-href="/apply/{{job.id}}" class="applybtn btn btn-primary"><i class="fa fa-briefcase" aria-hidden="true"></i>Apply For This Job</button>
+							{% else %}
+							<a href="/signin/" class="btn btn-primary"><i class="fa fa-briefcase" aria-hidden="true"></i>Apply For This Job</a>
+							{% endif %}
+						</div>
+
+					</div>
+				</div><!-- job-ad-item -->
+				</form>
+
+				<div class="job-details-info">
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="section job-description">
+								<div class="description-info">
+									<h1>Description</h1>
+									<p>{{job.description}}</p>
+								</div>
+								<div class="responsibilities">
+									<h1>Key Responsibilities:</h1>
+									<p>-Execute all visual design stages of website design from concept to final hand-off to development-Create print advertisements, social media advertisements, client collateral &amp; digital resizes according to Client demands With direction of the Creative team, input into new design ideas for client branding-Update &amp; keep all agency collateral materials, including keeping records of Client's logos, fonts, images, etc.  </p>
+								</div>
+								<div class="requirements">
+									<h1>Minimum Requirements</h1>
+									<ul>
+										<li>Bachelor's Degree</li>
+										<li>2-5 years of relevant experience ( or equivalent educational experience)</li>
+										<li>Experience developing in Wordpress and other web design platforms</li>
+										<li>HTML, CSS and JavaScript experience a plus</li>
+										<li>In depth knowledge &amp; technical experience of Photoshop, Illustrator, InDesign, Adobe PDF, Keynote, PowerPoint, Microsoft Word &amp; Excel</li>
+										<li>Exceptional eye for design, deep understanding of creativity and ability to recognize fresh approaches to Advertising </li>
+										<li>Must be fluent in Spanish; working written and spoken proficiency</li>
+										<li>**All applicants must be eligible to work in the U.S. without sponsorship</li>
+									</ul>
 								</div>
 							</div>
-					</div>
-				</div><!-- user-login -->
-			</div><!-- row -->
+						</div>
+						<div class="col-sm-4">
+							<div class="section job-short-info">
+								<h1>Short Info</h1>
+								<ul>
+									<li><span class="icon"><i class="fa fa-bolt" aria-hidden="true"></i></span>Posted On : {{job.addedon | date}}</li>
+									<li><span class="icon"><i class="fa fa-user-plus" aria-hidden="true"></i></span> Position : {{job.jobtitle}}</li>
+									<li><span class="icon"><i class="fa fa-industry" aria-hidden="true"></i></span>Department : {{job.department}}</li>
+									<li><span class="icon"><i class="fa fa-line-chart" aria-hidden="true"></i></span>Experience : {{job.get_experience_display}}</li>
+								</ul>
+							</div>
+							<div class="section company-info">
+								<h1>Company Info</h1>
+								<ul>
+									<li>Company Name: {{job.department}}</li>
+									<li>Job Location: {{job.location}}</li>
+								</ul>
+							</div>
+						</div>
+					</div><!-- row -->
+				</div>
+			</div><!-- job-details -->
 		</div><!-- container -->
-	</section><!-- signup-page -->
+	</section><!-- job-details-page -->
+
+	<section id="something-sell" class="clearfix parallax-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 text-center">
+					<h2 class="title">Add your resume and let your next job find you.</h2>
+					<h4>Post your Resume for free on <a href="#">Jobs.com</a></h4>
+					<a href="post-resume.html" class="btn btn-primary">Add Your Resume</a>
+				</div>
+			</div><!-- row -->
+		</div><!-- contaioner -->
+	</section><!-- something-sell -->
 
 	<!-- footer -->
 	<footer id="footer" class="clearfix">
@@ -221,7 +267,7 @@
 							<h3>Newsletter</h3>
 							<p>Jobs is Worldest leading Portal platform that brings!</p>
 							<!-- form -->
-							<form action="#">
+							<form>
 								<input type="email" class="form-control" placeholder="Your email id">
 								<button type="submit" class="btn btn-primary">Sign Up</button>
 							</form><!-- form -->
@@ -236,20 +282,18 @@
 				<p>Copyright &copy; <a href="#">Jobs</a> 2017. Developed by <a href="javascript:void(0);">Aditya Sharma and Rochan Sharma</a></p>
 			</div>
 		</div><!-- footer-bottom -->
-	</footer><!-- footer -->
+	</footer>
 
     <!-- JS -->
     <script src="/static/jobsite/js/jquery.min.js"></script>
     <script src="/static/jobsite/js/bootstrap.min.js"></script>
+    <script src="/static/jobsite/js/jobsite.js"></script>
     <script src="/static/jobsite/js/price-range.js"></script>
     <script src="/static/jobsite/js/main.js"></script>
 	<script src="/static/jobsite/js/switcher.js"></script>
-	<script src="/static/jobsite/js/jobsite.js"></script>
-	<script src="/static/jQueryValidationEngine/js/jquery.validationEngine.js"></script>
+    <script src="/static/JqueryAutoComplete/js/jqueryautocomplete.js"></script>
+    <script src="/static/jQueryValidationEngine/js/jquery.validationEngine.js"></script>
 	<script src="/static/jQueryValidationEngine/js/jquery.validationEngine-en.js"></script>
-	<script src="/static/JqueryAutoComplete/js/jqueryautocomplete.js"></script>
-
-  </body>
-
-<!-- Mirrored from demo.themeregion.com/jobs-updated/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 31 Jan 2017 19:26:06 GMT -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</body>
 </html>
