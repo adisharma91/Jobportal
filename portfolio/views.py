@@ -3,7 +3,6 @@ from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login, logout
 from portfolio import forms as portfolioform
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, response
 from django.contrib import messages
 from django.conf import settings
@@ -15,7 +14,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def index(request):
-    user_numbr = User.objects.all().count()
+    user_numbr = MyUser.objects.all().count()
+
+    try:
+        usr = MyUser.objects.get(id=request.user.id)
+    except MyUser.DoesNotExist:
+        usr = None
 
     applied = JobsApplied.objects.filter(userid_id=request.user.id)
 
@@ -27,36 +31,43 @@ def index(request):
 
         jobs = JobsModel.objects.all().exclude(id__in=j).order_by('-id')[:10]
 
-        return render(request, 'index.html', {'user_numbr': user_numbr, 'jobs': jobs})
+        return render(request, 'index.html', {'user_numbr': user_numbr, 'jobs': jobs, 'usr':usr})
     else:
         jobs = JobsModel.objects.filter().order_by('-id')[:10]
 
-        return render(request, 'index.html', {'user_numbr': user_numbr, 'jobs': jobs})
+        return render(request, 'index.html', {'user_numbr': user_numbr, 'jobs': jobs, 'usr':usr})
 
 
 def signin(request):
     if request.method == 'POST':
-        user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+        form = portfolioform.LoginForm(data=request.POST)
+        if form.is_valid():
 
-        if user is not None:
-            if user.is_active:
-                login(request, user)
+            user = authenticate(email=request.POST['email'], password=request.POST['password'])
 
-            return HttpResponseRedirect('/')
+            if user is not None:
+
+                if user.is_active:
+                    login(request, user)
+
+                    return HttpResponseRedirect('/')
         else:
             messages.add_message(request, messages.INFO, 'Username/Password do not match. Please try again.')
             return render(request, 'signin.html')
     else:
-        return render(request, 'signin.html')
+        form = portfolioform.LoginForm()
+
+    context = {'form': form}
+    return render(request, 'signin.html', context)
 
 
 def forgotpassword(request):
     if request.method == 'POST':
-        if User.objects.filter(email=request.POST.get('email')).exists():
+        if MyUser.objects.filter(email=request.POST.get('email')).exists():
             eml = request.POST.get('email')
 
-            u = User.objects.get(email=eml)
-            password = User.objects.make_random_password()
+            u = MyUser.objects.get(email=eml)
+            password = MyUser.objects.make_random_password()
             u.set_password(password)
             u.save()
 
@@ -82,27 +93,32 @@ def signout(request):
 
 def signup(request):
     if request.method == 'POST':
-            userfrm = portfolioform.Userform(request.POST)
-            if User.objects.filter(username=request.POST.get('username')).exists():
-                messages.add_message(request, messages.INFO, 'Username already exists !!')
-                return render(request, 'signup.html', {'userform': userfrm})
-            else:
-                user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
-                user.first_name = request.POST['first_name']
-                user.last_name = request.POST['last_name']
-                user.save()
-                login(request, user)
-                subject = 'Welcome to Job Portal.'
-                message = 'Thank you for being part of us. \n We are glad to have you. \n Regards \n Team Job Portal'
-                from_email = settings.EMAIL_HOST_USER
-                to_list = [user.email, settings.EMAIL_HOST_USER]
+        userfrm = portfolioform.UserCreationForm(request.POST)
 
-                send_mail(subject, message, from_email, to_list, fail_silently=True)
-                return HttpResponseRedirect('/',{'userform': userfrm})
+        if MyUser.objects.filter(email=request.POST.get('email')).exists():
+            messages.add_message(request, messages.INFO, 'Email already exists !!')
+            return render(request, 'signup.html', {'userform': userfrm})
 
+        if userfrm.is_valid():
+            userfrm.save()
+
+            user = authenticate(email=request.POST['email'], password=request.POST['password1'])
+
+            login(request, user)
+            subject = 'Welcome to Job Portal.'
+            message = 'Thank you for being part of us. \n We are glad to have you. \n Regards \n Team Job Portal'
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [user.email, settings.EMAIL_HOST_USER]
+
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
+            return HttpResponseRedirect('/',{'userform': userfrm})
+        else:
+            userfrm = portfolioform.UserCreationForm(request.POST)
+            return render(request, 'signup.html', {'userform': userfrm})
     else:
-        userfrm = portfolioform.Userform()
-        return render(request, 'signup.html', {'userform': userfrm})
+        userfrm = portfolioform.UserCreationForm()
+
+    return render(request, 'signup.html', {'userform': userfrm})
 
 
 @login_required(login_url=settings.LOGIN_URL)
@@ -151,9 +167,9 @@ def profile(request,Id):
 @login_required(login_url=settings.LOGIN_URL)
 def biodataPDFView(request,Id):
     uid = int(Id)
-    # path_wkthmltopdf = r'C:\Python27\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    # config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
-    pdf = pdfkit.from_url(('http://127.0.0.1:8000/pdfdata/%d' %uid), False)
+    path_wkthmltopdf = r'C:\Python27\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
+    pdf = pdfkit.from_url(('http://127.0.0.1:8000/pdfdata/%d' %uid), False, configuration=config)
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="biodata.pdf"'
     return response
@@ -182,7 +198,7 @@ def check_user_exists_or_not(request):
 
 
 def all_jobs_list(request):
-    data = User.objects.all()
+    data = MyUser.objects.all()
     DataArray = []
     if data.exists():
 

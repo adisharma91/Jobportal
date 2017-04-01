@@ -124,38 +124,41 @@
 							{% endfor %}
 						{% endif %}
 						</div>
-							<!--<ul class="nav nav-tabs text-center" role="tablist">-->
-								<!--<li role="presentation" class="active"><a href="#find-job" aria-controls="find-job" role="tab" data-toggle="tab">Find A Job</a></li>-->
-								<!--<li role="presentation"><a href="#post-job" aria-controls="post-job" role="tab" data-toggle="tab">Post A Job</a></li>-->
-							<!--</ul>-->
 
 							<div class="tab-content">
 								<div role="tabpanel" class="tab-pane active" id="find-job">
 									<form class="form" method="post" action="">
                                         {% csrf_token %}
-										<div class="form-group">
-											<input class="form-control validate[required]" id="id_first_name" name="first_name" placeholder="Firstname" type="text">
-                                            <!--{{userform.first_name}}-->
+										<div style="margin-bottom: 28px; !important" class="form-group">
+											<ul style="display:inline-flex;" id="id_user_type">
+												<li style="margin-right:30px;">
+													<label class="radio-inline" for="id_user_type_0"><input style="margin-top: -11px !important;" checked="checked" id="id_user_type_0" name="user_type" type="radio" value="A"><b> Applicant</b></label>
+												</li>
+												<li>
+													<label class="radio-inline" for="id_user_type_1"><input style="margin-top: -11px !important;" id="id_user_type_1" name="user_type" type="radio" value="E"><b> Employer</b></label>
+												</li>
+											</ul>
+
 										</div>
 										<div class="form-group">
-											<input class="form-control validate[required]" id="id_last_name" name="last_name" placeholder="Lastname" type="text">
-											<!--{{userform.last_name}}-->
-										</div>
-                                        <div class="form-group regis">
-											<input class="form-control validate[required]" id="id_username" name="username" placeholder="Username" type="text">
-											<!--{{userform.username}}-->
+											<input class="form-control validate[required]" id="id_first_name" name="first_name" placeholder="First Name" type="text">
 										</div>
 										<div class="form-group">
-											<input class="form-control validate[required,minSize[6]]" id="id_password" name="password" placeholder="Password" type="password">
-											<!--{{userform.password}}-->
+											<input class="form-control validate[required]" id="id_last_name" name="last_name" placeholder="Last Name" type="text">
 										</div>
 										<div class="form-group">
-											<input type="password" class="form-control validate[required,equals[id_password]]" placeholder="Re-enter Password">
+											<input class="form-control validate[required,custom[phone],maxSize[13]]" id="id_contact_number" name="contact_number" placeholder="Contact Number" type="text">
 										</div>
 										<div class="form-group">
-											<input class="form-control validate[custom[email],required]" id="id_email" name="email" placeholder="Email" type="text">
-											<!--{{userform.email}}-->
+											<input class="form-control validate[custom[email],required]" id="id_email" maxlength="255" name="email" placeholder="Email Address" type="email">
 										</div>
+										<div class="form-group">
+											<input class="form-control validate[required,minSize[6]]" id="id_password1" name="password1" placeholder="Create Password" type="password">
+										</div>
+										<div class="form-group">
+											<input class="form-control validate[required,equals[id_password1]]" id="id_password2" name="password2" placeholder="Re-enter Password" type="password">
+										</div>
+
 										<button id="signupbtn" type="submit" class="btn">Registration</button>
 									</form>
 								</div>

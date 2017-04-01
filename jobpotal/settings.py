@@ -14,6 +14,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'portfolio.MyUser'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -58,7 +60,7 @@ WSGI_APPLICATION = 'jobpotal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',      #postgresql_psycopg2 for ubuntu
-        'NAME': 'jobportal',
+        'NAME': 'jobportaldb',
         'USER': 'postgres',
         'PASSWORD': '123',
         'HOST': 'localhost',

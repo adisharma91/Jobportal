@@ -1527,7 +1527,7 @@ a.verified i {
 }
 
 .user-account .checkbox label, .forgot-password a{
-	color:#b9b9b9;
+	color:#337ab7;
 }
 
 .user-account .checkbox label:hover, .forgot-password a:hover {
@@ -1535,12 +1535,12 @@ a.verified i {
 }
 .user-account .user-option {
 	overflow:hidden;
-	margin-top:55px;
+	margin-top:40px;
 }
 
-.user-option .forgot-password {
+/*.user-option .forgot-password {
 	margin-top:10px;
-}
+}*/
 
 .user-page .btn-primary {
 	padding:15px 30px;

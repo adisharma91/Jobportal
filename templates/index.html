@@ -97,7 +97,7 @@
 					<ul class="sign-in">
 						<li><i class="fa fa-user"></i></li>
 						{% if request.user.id %}
-						<li><a href="javascript:void(0);">Welcome {{request.user.first_name | title}}</a></li>
+						<li><a href="javascript:void(0);">Welcome {{usr.first_name | title}}</a></li>
 						<li><a href="/signout/">Signout</a></li>
 						{% else %}
 						<li><a href="/signin/">Sign In</a></li>

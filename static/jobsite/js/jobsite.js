@@ -60,37 +60,6 @@ $( "#tags" ).autocomplete({
   source: availableTags
 });
 
-//if( $('.regis').val().length = 0)
-//    {
-//        $('.glyphicon').closest('span').remove();
-//    }
-
-$('.regis').on('input',function(){
-  $('.glyphicon').closest('span').remove();
-  var username = $("input[name='username']").val();
-
-      $.ajax({
-            type:"POST",
-            url: "/check_user_exists_or_not/",
-            data: {
-                   'username': username,
-                  }
-
-            }).done(function(response){
-                if (response == 'Already_used') {
-                    $('#id_username').parent('div').removeClass('has-feedback has-success');
-                    $('#id_username').parent('div').addClass('has-feedback has-error');
-                    $('#id_username').after('<span class="glyphicon glyphicon-remove form-control-feedback pad6" aria-hidden="true"></span>');
-                }
-                else{
-                    $('#id_username').parent('div').removeClass('has-feedback has-error ');
-                    $('#id_username').parent('div').addClass('has-feedback has-success ');
-                    $('#id_username').after('<span class="glyphicon glyphicon-ok form-control-feedback pad6" aria-hidden="true"></span>');
-                }
-              });
-
-  });
-
   $('.applybtn').click(function(e){
         e.preventDefault();
         $(this).html('Applied').attr('disabled',true);

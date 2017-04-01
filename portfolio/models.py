@@ -1,6 +1,75 @@
 from __future__ import unicode_literals
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+
+
+class MyUserManager(BaseUserManager):
+    def create_user(self, email, username, user_type, first_name, last_name, contact_number, password=None):
+
+        if not email:
+            raise ValueError('Users must have an email address')
+
+        user = self.model(
+            email=self.normalize_email(email),
+            user_type=user_type,
+            username=username,
+            contact_number=contact_number,
+            first_name=first_name,
+            last_name=last_name
+        )
+
+        if password:
+            user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, email, password):
+
+        user = self.create_user(email=email,
+                                password=password,
+                                username=username
+                                )
+        user.is_admin = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
+
+
+class MyUser(AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(max_length=30, default='user')
+    email = models.EmailField(verbose_name='email address', max_length=255, unique=True, db_index=True,)
+    user_type = models.CharField(max_length=30, choices={
+        ("A", "Applicant"),
+        ("E", "Employer"),
+        }, default='A')
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    first_name = models.CharField(max_length=200, blank=True, null=True)
+    last_name = models.CharField(max_length=200, blank=True, null=True)
+    contact_number = models.CharField(max_length=13, blank=True, null=True)
+    date_joined = models.DateTimeField(auto_now_add=True)
+
+    objects = MyUserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name','last_name','contact_number']
+
+    def get_full_name(self):
+        full_name = '%s %s' % (self.first_name, self.last_name)
+        return full_name.strip()
+
+    def get_short_name(self):
+        return self.first_name
+
+    def get_email(self):
+        return self.email
+
+    def __unicode__ (self):
+        return self.email
+
+    @property
+    def is_staff(self):
+        return self.is_admin
 
 
 class BiodataModel(models.Model):
@@ -12,7 +81,7 @@ class BiodataModel(models.Model):
         ('w','Widowed')
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     fathername = models.CharField(max_length=200, null=True, blank=True)
     dob = models.DateField(null=True, blank=True)
     marital_status = models.CharField(max_length=10, choices=Status, null=True, blank=True)
@@ -70,6 +139,6 @@ class JobsModel(models.Model):
 
 class JobsApplied(models.Model):
     jobid = models.ForeignKey(JobsModel, on_delete=models.CASCADE)
-    userid = models.ForeignKey(User, on_delete=models.CASCADE)
+    userid = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     applied_on = models.DateTimeField(auto_now_add=True)
 
