@@ -22,7 +22,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = MyUser
-        fields = ('email', 'user_type')
+        fields = ('email', 'user_type', 'first_name', 'last_name', 'contact_number')
 
     def __init__(self, *args, **kwargs):
 
@@ -60,9 +60,6 @@ class UserCreationForm(forms.ModelForm):
         # get the user object first, then add password, then save
         user.set_password(self.cleaned_data["password1"])
         if commit:
-            user.first_name = self.cleaned_data["first_name"]
-            user.last_name = self.cleaned_data["last_name"]
-            user.contact_number = self.cleaned_data["contact_number"]
             user.is_active = True
             user.save()
         return user

@@ -1,6 +1,6 @@
+<!DOCTYPE html>
+{% load humanize %}
 <html lang="en">
-
-<!-- Mirrored from demo.themeregion.com/jobs-updated/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 31 Jan 2017 19:26:05 GMT -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,13 +18,14 @@
     <link rel="stylesheet" href="/static/jobsite/css/main.css">
 	<link id="preset" rel="stylesheet" href="/static/jobsite/css/presets/preset1.css">
     <link rel="stylesheet" href="/static/jobsite/css/responsive.css">
-
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">-->
+    <link rel="stylesheet" href="/static/jobsite/css/datepicker.css">
 	<!-- font -->
 	<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,300' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Signika+Negative:400,300,600,700' rel='stylesheet' type='text/css'>
 
 	<!-- icons -->
-	<link rel="icon" href="images/ico/favicon.ico">
+	<link rel="icon" href="/static/jobsite/images/ico/favicon.ico">
     <link rel="apple-touch-icon" sizes="144x144" href="/static/jobsite/images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon" sizes="114x114" href="/static/jobsite/images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/static/jobsite/images/ico/apple-touch-icon-72-precomposed.html">
@@ -57,10 +58,10 @@
 				</div>
 				<!-- /navbar-header -->
 
-				<div class="navbar-left">
+                <div class="navbar-left">
 					<div class="collapse navbar-collapse" id="navbar-collapse">
 						<ul class="nav navbar-nav">
-							<li><a href="index-2.html">Home</a></li>
+							<li class="active"><a href="index-2.html">Home</a></li>
 							<li><a href="/jobs/">Job list</a></li>
 							{% if request.user.is_authenticated and request.user.user_type == 'A' %}
 							<li><a href="/appliedjobs/">Applied Jobs</a></li>
@@ -109,131 +110,129 @@
 		</nav><!-- navbar -->
 	</header><!-- header -->
 
-	<section class=" job-bg page  ad-profile-page">
+	<section style="background-size: cover;" class="job-bg page job-list-page">
 		<div class="container">
-			<div class="breadcrumb-section">
-				<ol class="breadcrumb">
-					<li><a href="index-2.html">Home</a></li>
-					<li>Employee Profile</li>
-				</ol>
-				<h2 class="title">My Profile</h2>
-			</div><!-- breadcrumb-section -->
 
-			<div class="resume-content">
-				<div class="profile section clearfix">
-					<div class="profile-logo">
-					    <img class="img-responsive" style="height: 181px;width: 151px;" src="{{bdata.pic.url}}" alt="Image">
-					</div>
-					<div class="profile-info">
-					    <h1>{{bdata.user.first_name | title}} {{bdata.user.last_name | title}}</h1>
-					    <address>
-					        <p>Address: {{bdata.address}} <br> Phone: +012 345 678 910 <br> Email: {{bdata.user.email}}</p>
-					    </address>
-					</div>
-				</div><!-- profile -->
-
-				<div class="work-history section">
-			        <div class="icons">
-			            <i class="fa fa-briefcase" aria-hidden="true"></i>
-			        </div>
-			        <div class="work-info">
-			        	<h3>Work History</h3>
-			        	<ul>
-			        		<li>
-				        		<!--<h4>Senior Graphic Designer @ Buildomo <span>2012 - Present</span></h4>-->
-				        		<p>{{bdata.experience}}</p>
-			        		</li>
-			        	</ul>
-			        </div>
-				</div><!-- work-history -->
-
-				<div class="educational-background section">
-					<div class="icons">
-					    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-					</div>
-					<div class="educational-info">
-						<h3>Education Background</h3>
-						<ul>
-							<li>
-								<p>{{bdata.qualification}}</p>
-							</li>
-
+			<div class="banner-form banner-form-full job-list-form">
+				<form>
+					<!-- language-dropdown -->
+					<div class="dropdown category-dropdown language-dropdown">
+						<a data-toggle="dropdown" href="#"><span class="change-text">Job Location</span> <i class="fa fa-angle-down"></i></a>
+						<ul class="dropdown-menu category-change language-change">
+							<li><a href="#">Location 1</a></li>
+							<li><a href="#">Location 2</a></li>
+							<li><a href="#">Location 3</a></li>
 						</ul>
-					</div>
-				</div><!-- educational-background -->
+					</div><!-- language-dropdown -->
 
-				<div class="language-proficiency section">
-			        <div class="icons">
-			            <i class="fa fa-credit-card" aria-hidden="true"></i>
-			        </div>
-				    <div class="proficiency">
-				    	<h3>Financial Details</h3>
-				        <ul class="list-inline">
-				            <li>
-				                <h5>Bank Account Number</h5>
-				                <p>{{bdata.bank_acnt}}</p>
-				            </li>
-				            <li>
-				                <h5>IFSC Code</h5>
-				                <p>{{bdata.ifsc_code}}</p>
-				            </li>
-				            <li>
-				                <h5>Old EPF & ESIC Number</h5>
-				                <p>{{bdata.old_erp_esic_numbr}}</p>
-				            </li>
-				        </ul>
-				    </div>
-				</div><!-- language-proficiency -->
+					<input type="text" class="form-control" placeholder="Type your key word">
+					<button type="submit" class="btn btn-primary" value="Search">Search</button>
+				</form>
+			</div><!-- banner-form -->
 
-				<div class="personal-deatils section">
-				    <div class="icons">
-				        <i class="fa fa-user-secret" aria-hidden="true"></i>
-				    </div>
-				    <div class="personal-info">
-				    	<h3>Personal Details</h3>
-				        <ul class="address">
-				            <li><h5>Full Name </h5> <span>:</span>{{bdata.user.first_name | title}} {{bdata.user.last_name | title}}</li>
-				            <li><h5>Father's Name </h5> <span>:</span>{{bdata.fathername | title}}</li>
-							<li><h5>Date of Birth </h5> <span>:</span>{{bdata.dob | date}}</li>
-				            <li><h5>Nationality </h5> <span>:</span>Indian</li>
-				            <li><h5>Marital Status </h5> <span>:</span>{{bdata.get_marital_status_display}}</li>
-				            <li><h5>Address </h5> <span>:</span>{{bdata.address}}</li>
-				        </ul>
-				    </div>
-				</div><!-- personal-deatils -->
+			<div class="category-info">
+				<div class="row">
+					<!-- accordion-->
 
-				<div class="special-qualification: section">
-					<div class="icons">
-					    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-					</div>
-					<div class="qualification">
-						<h3>Preffered Jobs</h3>
-						<p>{{bdata.preffered_jobs}}</p>
-					</div>
-				</div><!-- educational-background -->
+					<!-- recommended-ads -->
+					<div class="col-md-12">
+						<div class="section job-list-item">
+							<div class="featured-top">
+								<h4>Showing 1-25 of 65,712 ads</h4>
+								<div class="dropdown pull-right">
+									<div class="dropdown category-dropdown">
+										<h5>Sort by:</h5>
+										<a data-toggle="dropdown" href="#"><span class="change-text">Most Relevant</span><i class="fa fa-caret-square-o-down"></i></a>
+										<ul class="dropdown-menu category-change">
+											<li><a href="#">Most Relevant</a></li>
+											<li><a href="#">Most Popular</a></li>
+										</ul>
+									</div><!-- category-change -->
+								</div>
+							</div><!-- featured-top -->
+							<form id="applyfrm" method="post" action="">
+							{% csrf_token %}
+							{% if jobs %}
+							{% for job in jobs %}
+							<div class="job-ad-item">
+								<div class="item-info">
+								<div class="item-image-box">
+									<div class="item-image">
+										<a href="/jobdetail/{{job.id}}"><img src="/media/{{job.dept_logo}}" alt="Image" class="img-responsive"></a>
+									</div><!-- item-image -->
+								</div>
 
-				<div class="declaration section">
-			        <div class="icons">
-			            <i class="fa fa-hand-peace-o" aria-hidden="true"></i>
-			        </div>
-			        <div class="declaration-info">
-			        	<h3>Declaration</h3>
-			        	<p><span> I hereby declare that the details furnished above are true and correct to the best of my knowledge
-							and belief and I undertake to inform you of any changes therein, immediately. In case any of the above
-							information is found to be false or untrue or misleading or misrepresenting, I am aware that I may be held liable
-							for it. I hereby authorize sharing of the information furnished on this form with the <b>Shakya Outsourcing Solutions.</b></span></p>
-			        </div>
-				</div><!-- career-objective -->
-				<div class="buttons">
-					<a href="#" class="btn">Update Profile</a>
-					<a href="#" class="btn cancle">Cancel</a>
+								<div class="ad-info">
+									<span><a href="job-details.html" class="title">{{job.jobtitle}}</a> @ <a href="/jobdetail/{{job.id}}">{{job.department}}</a></span>
+									<div class="ad-meta">
+										<ul>
+											<li><a href="javascript://"><i class="fa fa-map-marker" aria-hidden="true"></i>{{job.location}}</a></li>
+											<li><a href="javascript://"><i class="fa fa-clock-o" aria-hidden="true"></i>Contract {{job.get_bondtime_display}}</a></li>
+											<li><a href="javascript://"><i class="fa fa-inr" aria-hidden="true"></i>{{job.salary | intcomma }}/Year</a></li>
+											<li><a href="javascript://"><i class="fa fa-tags" aria-hidden="true"></i>Last Date : {{job.lastdate}}</a></li>
+										</ul>
+									</div><!-- ad-meta -->
+								</div><!-- ad-info -->
+								<div class="button">
+									<button type="button" disabled="disabled" class="btn btn-primary">Applied</button>
+								</div>
+							</div><!-- item-info -->
+							</div><!-- job-ad-item -->
+							{% endfor %}
+							{% else %}
+							<div class="job-ad-item">
+								<div style="text-align: center;" class="item-info">
+									<label style="color: #00a651;">You haven't applied on any job yet !!</label>
+								</div>
+							</div>
+							{% endif %}
+							</form>
+
+							<!-- pagination  -->
+							<div class="text-center">
+								{% if jobs.has_other_pages %}
+									<ul class="pagination">
+									{% if jobs.has_previous %}
+									  <li><a href="?page={{ jobs.previous_page_number }}">&laquo;</a></li>
+									{% else %}
+									  <li class="disabled"><span>&laquo;</span></li>
+									{% endif %}
+									{% for i in jobs.paginator.page_range %}
+									  {% if jobs.number == i %}
+										<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+									  {% else %}
+										<li><a href="?page={{ i }}">{{ i }}</a></li>
+									  {% endif %}
+									{% endfor %}
+									{% if jobs.has_next %}
+									  <li><a href="?page={{ jobs.next_page_number }}">&raquo;</a></li>
+									{% else %}
+									  <li class="disabled"><span>&raquo;</span></li>
+									{% endif %}
+									</ul>
+								{% endif %}
+							</div><!-- pagination  -->
+						</div>
+					</div><!-- recommended-ads -->
+
+
 				</div>
-				<div class="download-button resume">
-					<a href="/biodatapdf/{{request.user.id}}" class="btn">Download Resume as doc</a>
-				</div>
-			</div><!-- resume-content -->
+			</div>
 		</div><!-- container -->
-	</section><!-- ad-profile-page -->
+	</section><!-- main -->
+
+
+	<section id="something-sell" class="clearfix parallax-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 text-center">
+					<h2 class="title">Add your resume and let your next job find you.</h2>
+					<h4>Post your Resume for free on <a href="#">Jobs.com</a></h4>
+					<a href="post-resume.html" class="btn btn-primary">Add Your Resume</a>
+				</div>
+			</div><!-- row -->
+		</div><!-- contaioner -->
+	</section><!-- something-sell -->
 
 	<!-- footer -->
 	<footer id="footer" class="clearfix">
@@ -290,7 +289,7 @@
 							<h3>Newsletter</h3>
 							<p>Jobs is Worldest leading Portal platform that brings!</p>
 							<!-- form -->
-							<form action="#">
+							<form>
 								<input type="email" class="form-control" placeholder="Your email id">
 								<button type="submit" class="btn btn-primary">Sign Up</button>
 							</form><!-- form -->
@@ -310,10 +309,13 @@
     <!-- JS -->
     <script src="/static/jobsite/js/jquery.min.js"></script>
     <script src="/static/jobsite/js/bootstrap.min.js"></script>
+    <script src="/static/jobsite/js/jobsite.js"></script>
     <script src="/static/jobsite/js/price-range.js"></script>
     <script src="/static/jobsite/js/main.js"></script>
 	<script src="/static/jobsite/js/switcher.js"></script>
-
+    <script src="/static/JqueryAutoComplete/js/jqueryautocomplete.js"></script>
+    <script src="/static/jQueryValidationEngine/js/jquery.validationEngine.js"></script>
+	<script src="/static/jQueryValidationEngine/js/jquery.validationEngine-en.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   </body>
-
 </html>

@@ -51,6 +51,9 @@ def signin(request):
                     login(request, user)
 
                     return HttpResponseRedirect('/')
+            else:
+                messages.add_message(request, messages.INFO, 'Username/Password do not match. Please try again.')
+                return render(request, 'signin.html')
         else:
             messages.add_message(request, messages.INFO, 'Username/Password do not match. Please try again.')
             return render(request, 'signin.html')
@@ -88,7 +91,7 @@ def forgotpassword(request):
 
 def signout(request):
     logout(request)
-    return redirect('/')
+    return HttpResponseRedirect('/')
 
 
 def signup(request):
@@ -181,20 +184,7 @@ def pdfdata(request,Id):
     except BiodataModel.DoesNotExist:
         bdata = None
 
-    return render(request, 'demopdf.html' ,{'bdata':bdata})
-
-
-def check_user_exists_or_not(request):
-    if request.method == 'POST':
-
-        username = request.POST.get('username')
-        try:
-            if User.objects.filter(username=username).exists():
-                return HttpResponse('Already_used')
-            else:
-                return HttpResponse('Not_used')
-        except:
-                return HttpResponse('False')
+    return render(request, 'demopdf.html',{'bdata':bdata})
 
 
 def all_jobs_list(request):
@@ -271,6 +261,35 @@ def jobsview(request):
 
 
 @login_required(login_url=settings.LOGIN_URL)
+def appliedjobs(request):
+    applied = JobsApplied.objects.filter(userid_id=request.user.id)
+
+    aj = []
+    if applied:
+        for job in applied:
+            jb = job.jobid_id
+            aj.append(jb)
+
+        jobs_list = JobsModel.objects.filter(id__in=aj).order_by('-id')
+
+        page = request.GET.get('page', 1)
+
+        paginator = Paginator(jobs_list, 5)
+        try:
+            jobs = paginator.page(page)
+        except PageNotAnInteger:
+            jobs = paginator.page(1)
+        except EmptyPage:
+            jobs = paginator.page(paginator.num_pages)
+
+        return render(request, 'appliedjobs.html', {'jobs': jobs})
+    else:
+        jobs_list = None
+
+        return render(request, 'appliedjobs.html', {'jobs': jobs_list})
+
+
+@login_required(login_url=settings.LOGIN_URL)
 def apply(request, Id):
     if request.POST:
         applied = JobsApplied.objects.create(jobid_id=Id,
@@ -282,6 +301,8 @@ def apply(request, Id):
 
 
 def jobdetail(request, Id):
+    applied = JobsApplied.objects.filter(userid_id=request.user.id)
+
     try:
         job = JobsModel.objects.get(id=Id)
     except JobsModel.DoesNotExist:
