@@ -120,13 +120,23 @@
 				</ol>
 				<h2 class="title">My Profile</h2>
 			</div><!-- breadcrumb-section -->
+			<div>
+				{% if messages %}
+					{% for message in messages %}
+						<div class="alert alert-danger">
+							<button type="button" class="close" data-dismiss="alert">x</button>
+							{{ message }}
+						</div>
+					{% endfor %}
+				{% endif %}
+			</div>
 
 			<div class="profile job-profile">
 				<div class="user-pro-section">
 					<!-- profile-details -->
 					<div class="profile-details section">
 						<h2>Profile Details</h2>
-						<form method="post" action="" enctype="multipart/form-data">
+						<form method="post" action="">
                             {% csrf_token %}
 
 							<div class="form-group">
@@ -142,6 +152,11 @@
 							<div class="form-group">
 								<label>Marital Status</label>
 								{{frm.marital_status}}
+							</div>
+
+							<div class="form-group">
+								<label>Gender</label>
+								{{frm.gender}}
 							</div>
 
 							<div class="form-group">
@@ -193,12 +208,11 @@
 								<label>Prefered Jobs</label>
 								{{frm.preffered_jobs}}
 							</div>
+                            <!--<div class="form-group">-->
+								<!--<label>Your Recent Photo</label>-->
+								<!--{{frm.pic}}-->
 
-                            <div class="form-group">
-								<label>Your Recent Photo</label>
-								{{frm.pic}}
-
-							</div>
+							<!--</div>-->
 
                             <div class="buttons">
                                 <a id="atg" href="javascript:void(0);" class="btn">Update Profile</a>
@@ -310,7 +324,6 @@
                 $('#sbtn').trigger('click');
             })
 
-            $('#id_pic').attr('style','margin-top:10px');
           });
     </script>
   </body>

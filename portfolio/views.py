@@ -108,6 +108,9 @@ def signup(request):
             user = authenticate(email=request.POST['email'], password=request.POST['password1'])
 
             login(request, user)
+            biodata = BiodataModel(user_id=request.user.id)
+            biodata.save()
+
             subject = 'Welcome to Job Portal.'
             message = 'Thank you for being part of us. \n We are glad to have you. \n Regards \n Team Job Portal'
             from_email = settings.EMAIL_HOST_USER
@@ -132,29 +135,65 @@ def biodata(request,Id):
         bdexist = None
 
     if request.method == 'POST':
-        frm = portfolioform.BiodataForm(request.POST, request.FILES)
-        bdata = BiodataModel.objects.create(user_id=request.user.id)
-        bdata.fathername = request.POST['fathername']
-        bdata.dob = request.POST['dob']
-        bdata.marital_status = request.POST['marital_status']
-        bdata.qualification = request.POST['qualification']
-        bdata.address = request.POST['address']
-        bdata.old_erp_esic_numbr = request.POST['old_erp_esic_numbr']
-        bdata.bank_acnt = request.POST['bank_acnt']
-        bdata.ifsc_code = request.POST['ifsc_code']
-        bdata.police_station = request.POST['police_station']
-        bdata.idnty_mark = request.POST['idnty_mark']
-        bdata.dateofjoining = request.POST['dateofjoining']
-        bdata.experience = request.POST['experience']
-        bdata.preffered_jobs = request.POST['preffered_jobs']
-        bdata.pic = request.FILES['pic']
-        bdata.save()
+        frm = portfolioform.BiodataForm(request.POST, instance=bdexist)
+        if bdexist:
+            bdexist.fathername = request.POST['fathername']
+            bdexist.dob = request.POST['dob']
+            bdexist.marital_status = request.POST['marital_status']
+            bdexist.qualification = request.POST['qualification']
+            bdexist.address = request.POST['address']
+            bdexist.old_erp_esic_numbr = request.POST['old_erp_esic_numbr']
+            bdexist.bank_acnt = request.POST['bank_acnt']
+            bdexist.ifsc_code = request.POST['ifsc_code']
+            bdexist.police_station = request.POST['police_station']
+            bdexist.idnty_mark = request.POST['idnty_mark']
+            bdexist.dateofjoining = request.POST['dateofjoining']
+            bdexist.experience = request.POST['experience']
+            bdexist.preffered_jobs = request.POST['preffered_jobs']
+            bdexist.gender = request.POST['gender']
+            bdexist.save()
 
-        return redirect('profile', Id=request.user.id)
+            return redirect('profile', Id=request.user.id)
+        else:
+            if frm.is_valid():
+                frm.save()
+                return redirect('profile', Id=request.user.id)
+            else:
+                frm = portfolioform.BiodataForm(instance=bdexist)
+                messages.add_message(request, messages.INFO,'Something went wrong, Please try again after sometime !!')
+                return render(request, 'biodata.html', {'frm': frm})
     else:
-        frm = portfolioform.BiodataForm()
+        frm = portfolioform.BiodataForm(instance=bdexist)
 
-        return render(request, 'biodata.html',{'frm':frm})
+    return render(request, 'biodata.html',{'frm':frm})
+
+
+def imgupload(request):
+    try:
+        usr = BiodataModel.objects.get(user_id=request.user.id)
+    except BiodataModel.DoesNotExist:
+        usr = None
+
+    max_size = 50 * 1024
+
+    if request.method == 'POST':
+        form = portfolioform.ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            usr.pic = request.FILES['pic']
+
+            img = usr.pic
+            if img.file.size > max_size:
+                messages.add_message(request, messages.INFO, 'Something went wrong, Please try again after sometime !!')
+                return redirect('profile', Id=request.user.id)
+            else:
+                usr.save()
+                return redirect('profile', Id=request.user.id)
+        else:
+            return redirect('profile', Id=request.user.id)
+    else:
+        form = portfolioform.ImageForm()
+
+        return render(request, 'imageupload.html', {'form': form})
 
 
 @login_required(login_url=settings.LOGIN_URL)
@@ -301,14 +340,14 @@ def apply(request, Id):
 
 
 def jobdetail(request, Id):
-    applied = JobsApplied.objects.filter(userid_id=request.user.id)
+    applied = JobsApplied.objects.filter(userid_id=request.user.id, jobid_id=Id)
 
     try:
         job = JobsModel.objects.get(id=Id)
     except JobsModel.DoesNotExist:
         job = None
 
-    return render(request, 'jobdetails.html', {'job': job})
+    return render(request, 'jobdetails.html', {'job': job, 'applied':applied})
 
 
 @login_required(login_url=settings.LOGIN_URL)

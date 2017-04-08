@@ -88,10 +88,11 @@ class BiodataForm(forms.ModelForm):
         self.fields['dob'].input_formats = settings.DATE_INPUT_FORMATS
         self.fields['dateofjoining'].input_formats = settings.DATE_INPUT_FORMATS
         self.fields['marital_status'].choices = BiodataModel.Status
+        self.fields['gender'].choices = BiodataModel.Gender
 
     class Meta:
         model = BiodataModel
-        exclude = ['emailverified','deleted']
+        exclude = ['pic','emailverified','deleted']
 
         widgets = {
             'fathername': forms.TextInput(attrs={'class': 'form-control','required':'true'}),
@@ -107,6 +108,16 @@ class BiodataForm(forms.ModelForm):
             'dateofjoining': forms.DateInput(attrs={'class': 'form-control','id': 'datepicker2'}),
             'experience': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'preffered_jobs': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'gender': forms.Select(attrs={'class': 'form-control'})
+        }
+
+
+class ImageForm(forms.ModelForm):
+    class Meta:
+        model = BiodataModel
+        fields = ['pic',]
+
+        widgets = {
             'pic': forms.FileInput()
         }
 

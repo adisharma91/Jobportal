@@ -24,7 +24,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Signika+Negative:400,300,600,700' rel='stylesheet' type='text/css'>
 
 	<!-- icons -->
-	<link rel="icon" href="images/ico/favicon.ico">
+	<link rel="icon" href="/static/jobsite/images/ico/favicon.ico">
     <link rel="apple-touch-icon" sizes="144x144" href="/static/jobsite/images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon" sizes="114x114" href="/static/jobsite/images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/static/jobsite/images/ico/apple-touch-icon-72-precomposed.html">
@@ -39,6 +39,94 @@
     <![endif]-->
     <!-- Template Developed By ThemeRegion -->
   </head>
+  <style>
+.overlay {
+	opacity: 0.5;
+	background:gray;
+	width:100%;
+	top: 50%;
+	left: 50%;
+	display:none;
+	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	color: black;
+	position: absolute;
+	line-height: 100%;
+	text-align: center;
+	font-size: 200pt;
+	height: 100%;
+	display: table-cell;
+	vertical-align: middle;
+	z-index:1000;
+}
+
+.lightbox {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0, 0, 0, .8);
+}
+
+.lightbox_table {
+    width:100%;
+    height:100%;
+}
+
+.lightbox_table_cell {
+    vertical-align:middle;
+}
+
+.lightbox_txtwidth{
+    width:80% !important;
+}
+
+.lightbox_width{
+    width: 31%;
+    height: 192px;
+    background-color: white;
+    border: 5px solid black;
+}
+
+.lightbox_errorwidth{
+    width: 31%;
+    height: 252px;
+    background-color: white;
+    border: 5px solid black;
+}
+
+@media only screen and (max-width: 1024px) {
+	.lightbox_width{
+		width: 70%;
+		height: 192px;
+		background-color: white;
+		border: 5px solid black;
+	}
+
+	.lightbox_errorwidth{
+		width: 83%;
+		height: 252px;
+		background-color: white;
+		border: 5px solid black;
+	}
+}
+
+.display-none{
+    display:none;
+    z-index:1;
+}
+
+.lightbox_close{
+    color:black !important;
+    float:right;
+    margin-right:10px;
+}
+
+.lightbox_content{
+    margin-top:10px;
+}
+</style>
   <body>
 	<!-- header -->
 	<header id="header" class="clearfix">
@@ -120,9 +208,25 @@
 			</div><!-- breadcrumb-section -->
 
 			<div class="resume-content">
+				<div>
+				{% if messages %}
+					{% for message in messages %}
+						<div class="alert alert-danger">
+							<button type="button" class="close" data-dismiss="alert">x</button>
+							{{ message }}
+						</div>
+					{% endfor %}
+				{% endif %}
+				</div>
 				<div class="profile section clearfix">
 					<div class="profile-logo">
-					    <img class="img-responsive" style="height: 181px;width: 151px;" src="{{bdata.pic.url}}" alt="Image">
+						{% if bdata.pic %}
+						<img class="img-responsive" style="height: 181px;width: 151px;" src="{{bdata.pic.url}}" alt="Image">
+						<a href="javascript://" class="btn imgbutton" style="margin-bottom:0px !important;width: 151px;">Update Image</a>
+						{% else %}
+					    <img class="img-responsive" style="height: 181px;width: 151px;" src="/static/jobsite/images/user_logo.png" alt="Image">
+						<a href="javascript://" class="btn imgbutton" style="margin-bottom: 0px !important;width: 151px;">Upload Image</a>
+						{% endif %}
 					</div>
 					<div class="profile-info">
 					    <h1>{{bdata.user.first_name | title}} {{bdata.user.last_name | title}}</h1>
@@ -229,7 +333,11 @@
 					<a href="#" class="btn cancle">Cancel</a>
 				</div>
 				<div class="download-button resume">
+					{% if bdata.pic %}
 					<a href="/biodatapdf/{{request.user.id}}" class="btn">Download Resume as doc</a>
+					{% else %}
+					<a href="javascript://" class="imgbutton" style="color:red;text-decoration:underline;">*Please update your photo to download Resume as doc</a>
+					{% endif %}
 				</div>
 			</div><!-- resume-content -->
 		</div><!-- container -->
@@ -307,12 +415,24 @@
 		</div><!-- footer-bottom -->
 	</footer>
 
+	<div id="lightbox" class="lightbox display-none">
+		<table class="lightbox_table">
+			<tr>
+				<td class="lightbox_table_cell" align="center">
+					<div id="lightbox_content" class="lightbox_width">
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
     <!-- JS -->
     <script src="/static/jobsite/js/jquery.min.js"></script>
     <script src="/static/jobsite/js/bootstrap.min.js"></script>
     <script src="/static/jobsite/js/price-range.js"></script>
     <script src="/static/jobsite/js/main.js"></script>
 	<script src="/static/jobsite/js/switcher.js"></script>
+  	<script src="/static/jobsite/js/img.js"></script>
 
   </body>
 

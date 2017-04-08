@@ -18,4 +18,5 @@ urlpatterns = [
      url(r'^jobdetail/(?P<Id>[\w-]+)$', views.jobdetail, name='jobdetail'),
      url(r'^apply/(?P<Id>[\w-]+)$', views.apply, name='apply'),
      url(r'^users/$', views.users, name='users'),
+     url(r'^imgupload/$', views.imgupload, name='imgupload')
 ]

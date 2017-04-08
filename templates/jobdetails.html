@@ -116,6 +116,7 @@
 			<div class="job-details">
 				<form id="applyfrm" method="post" action="">
 				{% csrf_token %}
+
 				<div class="section job-ad-item">
 					<div class="item-info">
 						<div class="item-image-box">
@@ -137,6 +138,15 @@
 						</div><!-- ad-info -->
 					</div><!-- item-info -->
 					<div class="social-media">
+						{% if applied %}
+						<div class="button">
+							{% if request.user.is_authenticated and request.user.user_type == 'A' %}
+							<button disabled="disabled" class="applybtn btn btn-primary"><i class="fa fa-briefcase" aria-hidden="true"></i>Applied</button>
+							{% elif request.user.is_anonymous %}
+							<a href="/signin/" class="btn btn-primary"><i class="fa fa-briefcase" aria-hidden="true"></i>Apply For This Job</a>
+							{% endif %}
+						</div>
+						{% else %}
 						<div class="button">
 							{% if request.user.is_authenticated and request.user.user_type == 'A' %}
 							<button data-href="/apply/{{job.id}}" class="applybtn btn btn-primary"><i class="fa fa-briefcase" aria-hidden="true"></i>Apply For This Job</button>
@@ -144,9 +154,10 @@
 							<a href="/signin/" class="btn btn-primary"><i class="fa fa-briefcase" aria-hidden="true"></i>Apply For This Job</a>
 							{% endif %}
 						</div>
-
+						{% endif %}
 					</div>
 				</div><!-- job-ad-item -->
+
 				</form>
 
 				<div class="job-details-info">

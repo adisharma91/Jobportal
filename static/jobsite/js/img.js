@@ -1,4 +1,3 @@
-//jobsite.js
 $(document).ready(function(){
 
 var csrftoken = getCookie('csrftoken');
@@ -35,34 +34,19 @@ function getCookie(name) {
     return cookieValue;
 }
 
-
-$('.form').validationEngine({autoHidePrompt:true, scroll: false});
-
-$("#submitbtn").validationEngine('validate');
-$("#signupbtn").validationEngine('validate');
-
-$.get("/all_jobs_list/", function(result){
-
-        for(i=0;i<=result.length;i++){
-            availableTags.push('"'+result[i]+'"');
-            }
-});
-
-var availableTags = [];
-$( "#tags" ).autocomplete({
-  source: availableTags
-});
-
-  $('.applybtn').click(function(e){
-        e.preventDefault();
-        $(this).html('Applied').attr('disabled',true);
-        var action = $(this).data('href');
-        $.post(action,$('#applyfrm').serialize(), function(response){
-            if(response.success == 'true'){
-                window.location = window.location
+      $('.imgbutton').click(function(e){
+        $.get('/imgupload/',function(response){
+            if(response != null){
+                $('#lightbox_content').empty();
+                $('#lightbox_content').html(response);
+                $('#lightbox').css('display','inline');
             }
         })
-  })
+    })
 
 });
 
+function closeModal() {
+  document.getElementById('lightbox').style.display = "none";
+  $('#lightbox_content').removeClass('lightbox_errorwidth').addClass('lightbox_width');
+}

@@ -85,10 +85,16 @@ class BiodataModel(models.Model):
         ('w','Widowed')
     ]
 
+    Gender = [
+        ('m','Male'),
+        ('f','Female')
+    ]
+
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     fathername = models.CharField(max_length=200, null=True, blank=True)
     dob = models.DateField(null=True, blank=True)
     marital_status = models.CharField(max_length=10, choices=Status, null=True, blank=True)
+    gender = models.CharField(max_length=2, choices=Gender, null=True, blank=True)
     qualification = models.CharField(max_length=1000, null=True, blank=True)
     address = models.CharField(max_length=200, null=True, blank=True)
     old_erp_esic_numbr = models.CharField(max_length=200, null=True, blank=True)
@@ -99,7 +105,7 @@ class BiodataModel(models.Model):
     dateofjoining = models.DateField(null=True, blank=True)
     experience = models.CharField(max_length=1000, null=True, blank=True)
     preffered_jobs = models.CharField(max_length=500, null=True, blank=True)
-    pic = models.FileField(upload_to='profile', null=True, blank=True)
+    pic = models.ImageField(upload_to='profile')
     emailverified = models.BooleanField(default=False)
     lastupdated = models.DateTimeField(auto_now_add=True)
     deleted = models.BooleanField(default=False)
