@@ -192,6 +192,7 @@ class Form10c(models.Model):
     SB_BankAddress = models.CharField(max_length=200, null=True, blank=True)
 
 class Form19c_Old(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     father_name = models.CharField(max_length=50, null=True, blank=True)
     husband_name = models.CharField(max_length=50, null=True, blank=True)
     factory_address = models.CharField(max_length=50, null=True, blank=True)
